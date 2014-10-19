@@ -1,37 +1,39 @@
 
 #include <cmath>
 #include <vector>
+#include <bitset>
 #include <cassert>
 #include <iostream>
 #include <algorithm>
 using namespace std;
 
-#define MAX_N 1000 + 1
+#define SIZE 1000
+bitset<SIZE+1> prime;
+vector<int> prime_list;
 
-vector<int> primes;
+void gen_sieve() {
+	prime.set();
+	prime[0] = prime[1] = false;
 
-void gen_primes() {
-	bool is_prime[ MAX_N ];
-	fill(is_prime, is_prime + MAX_N, true);
-
-	is_prime[ 0 ] = false;
-	int i, j;
-	for ( i = 2; i*i <= MAX_N; ++i )
-		if ( is_prime[ i ] )
-			for ( j = i*i; j <= MAX_N; j += i )
-				is_prime[ j ] = false;
-
-	primes.push_back(1);
-	for ( i = 2; i <= MAX_N; ++i )
-		if ( is_prime[i] )
-			primes.push_back(i);
+	for (int i = 2; i*i <= SIZE; ++i)
+		if (prime[i]) {
+			prime_list.push_back(i);
+			for (int j = i*i; j <= SIZE; j += i)
+				prime[j] = false;
+		}
 }
 
-// find greatest number in primes[] which is less or equal to n
-// and return it's index
-
 int main() {
-	gen_primes();
+	gen_sieve();
+	int N, C;
+	while (cin >> N >> C) {
+		cout << N << ' ' << C << ": ";
+
+		int i	= lower_bound(prime_list.begin(), prime_list.end(), N)
+				- prime_list.begin();
+
+		if (prime_list[i] > N) --i;
+	}
 
 	return 0;
 }
