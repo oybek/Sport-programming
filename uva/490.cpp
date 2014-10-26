@@ -1,21 +1,25 @@
 
-#include <cmath>
-#include <vector>
-#include <cassert>
+#include <string>
 #include <iostream>
 #include <algorithm>
+using namespace std;
 
 #define SIZE 100
 
-int main()
-{
-	using namespace std;
+int main() {
+	string text[ SIZE ];
 
-	char text[ SIZE ][ SIZE ];
+	int rown = 0;
+	int coln = 0;
+	while (getline(cin, text[rown])) {
+		coln = max(coln, int(text[rown].size()));
+		++rown;
+	}
 
-	while ( cin >> t )
-	{
-		text.push_back(t);
+	for (int i = 0; i < coln; ++i) {
+		for (int j = rown-1; j >= 0; ++j) {
+			if (int(a[i].size()) < coln)
+		}
 	}
 
 	return 0;
