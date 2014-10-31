@@ -29,6 +29,10 @@ void remove_trailing_blanks(char * s)
 
 int main()
 {
+	string s;
+	while (getline(cin, s)) {
+		cout << s << endl;
+	}
 
 	return 0;
 }

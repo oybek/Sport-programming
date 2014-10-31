@@ -29,6 +29,21 @@ void remove_trailing_blanks(char * s)
 
 int main()
 {
+	int tt, t, price = 0;
+	string s;
+
+	cin >> tt;
+	while (tt--)
+	{
+		cin >> s;
+		if (s == "donate")
+		{
+			cin >> t;
+			price += t;
+		} else
+		if (s == "report")
+			cout << price << endl;
+	}
 
 	return 0;
 }

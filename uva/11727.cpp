@@ -20,6 +20,8 @@ typedef string::iterator si;
 #define for_(t, i, a, b) for (t i = t(a); i != t(b); ++i)
 #define rep_(n) for_(int, i_, 0, n)
 
+#define in_range(x, a, b) ((x >= a) && (x <= b))
+
 void remove_trailing_blanks(char * s)
 {
 	while (*s != '\0') ++s;
@@ -29,6 +31,17 @@ void remove_trailing_blanks(char * s)
 
 int main()
 {
+	int tt, a[3];
+	cin >> tt;
+	for_(int, i, 1, tt+1)
+	{
+		cout << "Case " << i << ": ";
+		cin >> a[0]
+			>> a[1]
+			>> a[2];
+		sort(a, a+3);
+		cout << a[1] << endl;
+	}
 
 	return 0;
 }

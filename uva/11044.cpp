@@ -29,6 +29,13 @@ void remove_trailing_blanks(char * s)
 
 int main()
 {
+	int n, a, b;
+	cin >> n;
+	while (n--)
+	{
+		cin >> a >> b;
+		cout << int(ceil((a-2)/3.0) * ceil((b-2)/3.0)) << endl;
+	}
 
 	return 0;
 }

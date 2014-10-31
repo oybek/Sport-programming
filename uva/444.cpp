@@ -1,13 +1,11 @@
 
 #include <set>
 #include <map>
-#include <queue>
 #include <cmath>
 #include <bitset>
 #include <cstdio>
 #include <string>
 #include <vector>
-#include <cstring>
 #include <climits>
 #include <iostream>
 #include <algorithm>
@@ -27,8 +25,18 @@ void remove_trailing_blanks(char * s)
 	*++s = '\0';
 }
 
+#define SIZE 128
+
 int main()
 {
+	char s[ SIZE ];
+	while (fgets(s, SIZE, stdin)) {
+		char * c = s;
+
+		if (isdigit(*s))
+		while (*c != '\n' && *c != '\0')
+			++c;
+	}
 
 	return 0;
 }

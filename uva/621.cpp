@@ -7,6 +7,7 @@
 #include <cstdio>
 #include <string>
 #include <vector>
+#include <utility>
 #include <cstring>
 #include <climits>
 #include <iostream>
@@ -29,6 +30,38 @@ void remove_trailing_blanks(char * s)
 
 int main()
 {
+	string s;
+
+	int n;
+	cin >> n;
+	while (n--)
+	{
+		cin >> s;
+		if (
+			s == "1" ||
+			s == "4" ||
+			s == "78"
+	   	)
+		{
+			cout << '+';
+		}
+		else
+		if (s.substr(s.size()-2, 2) == "35")
+		{
+			cout << '-';
+		}
+		else
+		if (*s.begin() == '9' && *s.rbegin() == '4')
+		{
+			cout << '*';
+		}
+		else
+		if (s.substr(0, 3) == "190")
+		{
+			cout << '?';
+		}
+		cout << endl;
+	}
 
 	return 0;
 }

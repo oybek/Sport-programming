@@ -1,13 +1,11 @@
 
 #include <set>
 #include <map>
-#include <queue>
 #include <cmath>
 #include <bitset>
 #include <cstdio>
 #include <string>
 #include <vector>
-#include <cstring>
 #include <climits>
 #include <iostream>
 #include <algorithm>
@@ -20,15 +18,35 @@ typedef string::iterator si;
 #define for_(t, i, a, b) for (t i = t(a); i != t(b); ++i)
 #define rep_(n) for_(int, i_, 0, n)
 
-void remove_trailing_blanks(char * s)
-{
-	while (*s != '\0') ++s;
-	while (isblank(*s)) --s;
-	*++s = '\0';
-}
-
 int main()
 {
+	static const int size = 101;
+	int n, t;
+	register int c[ size ];
+
+	while (1)
+	{
+		fill(c, c+size, 0);
+
+		scanf("%d", &n);
+		if (!n)
+			break;
+
+		while (n--) {
+			scanf("%d", &t);
+			++c[t];
+		}
+
+		bool first = true;
+		for_(int, i, 0, size)
+	   		while (c[i]--)
+			{
+				if (first) first = false;
+				else putchar(' ');
+				printf("%d", i);
+			}
+		puts("");
+	}
 
 	return 0;
 }

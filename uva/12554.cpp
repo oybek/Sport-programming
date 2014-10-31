@@ -27,8 +27,48 @@ void remove_trailing_blanks(char * s)
 	*++s = '\0';
 }
 
+#define SONG_SZ 16
+
+const char * song[ SONG_SZ ] = {
+	"Happy",
+	"birthday",
+	"to",
+	"you",
+	"Happy",
+	"birthday",
+	"to",
+	"you",
+	"Happy",
+	"birthday",
+	"to",
+	"Rujia",
+	"Happy",
+	"birthday",
+	"to",
+	"you"
+};
+
 int main()
 {
+	int n, name_sz;
+	char name[ 101 ][ 256 ];
+
+	scanf("%d", &n);
+	for_(int, i, 0, n)
+		scanf("%s", name[i]);
+
+	name_sz = n;
+	while (n%SONG_SZ) ++n;
+
+	int i = 0;
+	int j = 0;
+	while (n--)
+	{
+		printf("%s: %s\n", name[i], song[j]);
+
+		i = (i+1)%name_sz;
+		j = (j+1)%SONG_SZ;
+	}
 
 	return 0;
 }

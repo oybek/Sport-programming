@@ -29,6 +29,37 @@ void remove_trailing_blanks(char * s)
 
 int main()
 {
+	const int max_b = 20;
+	int b, n;
+	int r[ max_b+1 ];
+
+	while (1)
+	{
+		scanf("%d%d", &b, &n);
+		if (!b && !n)
+			break;
+
+		for_(int, i, 0, b)
+			scanf("%d", r+i);
+
+		while (n--)
+		{
+			int a, b, c;
+			scanf("%d%d%d", &a, &b, &c);
+
+			r[a-1] -= c;
+			r[b-1] += c;
+		}
+
+		string ans = "S";
+		for_(int, i, 0, b)
+			if (r[i] < 0) {
+				ans = "N";
+				break;
+			}
+
+		cout << ans << endl;
+	}
 
 	return 0;
 }

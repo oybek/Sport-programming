@@ -6,40 +6,31 @@ enum { PETYA, TAXI };
 
 int main() {
 	int x, dx, y, dy;
-	bool who = TAXI, tfirst = true, pfirst = true;
+	int taxi = true;
+	/*bool tfirst = true, pfirst = true;*/
 
+	bool tf = true, pf = true;
 	cin >> x >> dx >> y >> dy;
 
 	while (1) {
-		switch (who) {
-			case PETYA:
-				if (y < x) {
-					cout << y << endl;
-					return 0;
-				} else {
-					who = TAXI;
-					if (pfirst) {
-						pfirst = 0;
-					} else {
-						x += dx;
-					}
-				}
-			break;
-
-			case TAXI:
-				if (x > y) {
-					cout << x << endl;
-					return 0;
-				} else {
-					who = PETYA;
-					if (tfirst) {
-						tfirst = 0;
-					} else {
-						y -= dy;
-					}
-				}
-			break;
+		if (taxi) {
+			if (x >= y) {
+				cout << x;
+				return 0;
+			} else {
+				if (tf) tf = false;
+				else y -= dy;
+			}
+		} else {
+			if (y <= x) {
+				cout << y;
+				return 0;
+			} else {
+				if (pf) pf = false;
+				else x += dx;
+			}
 		}
+		taxi = !taxi;
 	}
 
 	return 0;

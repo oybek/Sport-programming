@@ -29,6 +29,24 @@ void remove_trailing_blanks(char * s)
 
 int main()
 {
+	int tt, t, n, minv, maxv;
+
+	scanf("%d", &tt);
+	while (tt--)
+	{
+		scanf("%d", &n);
+
+		minv = INF;
+		maxv = -INF;
+		for_(int, i, 0, n)
+		{
+			scanf("%d", &t);
+			minv = min(t, minv);
+			maxv = max(t, maxv);
+		}
+
+		cout << (maxv-minv)*2 << endl;
+	}
 
 	return 0;
 }
