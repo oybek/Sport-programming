@@ -20,27 +20,31 @@ typedef string::iterator si;
 #define for_(t, i, a, b) for (t i = t(a); i != t(b); ++i)
 #define rep_(n) for_(int, i_, 0, n)
 
-void remove_trailing_blanks(char * s)
-{
-	while (*s != '\0') ++s;
-	while (isblank(*s)) --s;
-	*++s = '\0';
-}
+#define DO(x, y)			\
+	puts((!(x) || !(y))		\
+			? "divisa"		\
+			: ((x) < 0)		\
+				? ((y) < 0)	\
+					? "SO"	\
+					: "NO"	\
+				: ((y) < 0)	\
+					? "SE"	\
+					: "NE")	\
 
 int main()
 {
-	int A, B, n, d, t, prev;
-	scanf("%d%d", &A, &B);
-
-	d = 0;
-	prev = INF;
-	for (n = B-A+1; n--; )
+	int n, x, y, a, b;
+	while (1)
 	{
-		scanf("%d", &t);
+		scanf("%d", &n);
+		if (!n)
+			break;
+		scanf("%d%d", &x, &y);
 
-		if (prev == INF) {
-			prev = t;
-			continue;
+		while (n--)
+		{
+			scanf("%d%d", &a, &b);
+			DO(a-x, b-y);
 		}
 	}
 

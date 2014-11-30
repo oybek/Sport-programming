@@ -27,22 +27,33 @@ void remove_trailing_blanks(char * s)
 	*++s = '\0';
 }
 
+int sol[] =
+{ 488889, 600000, 600000, 600000, 600000, 600000, 600000, 600000, 600000, 600000 };
+
 int main()
 {
-	int A, B, n, d, t, prev;
-	scanf("%d%d", &A, &B);
+	int ans[ 10 ];
+	memset(ans, 0, sizeof(int)*10);
 
-	d = 0;
-	prev = INF;
-	for (n = B-A+1; n--; )
+	int n;
+	scanf("%d", &n);
+
+	while (n >= 999999)
 	{
-		scanf("%d", &t);
-
-		if (prev == INF) {
-			prev = t;
-			continue;
-		}
+		for (int i = 0; i < 10; ++i)
+			ans[i] += sol[i];
+		n -= 999999;
 	}
+
+	while (n > 0)
+	{
+		for (int t = n; t > 0; t /= 10)
+			++ans[t%10];
+		--n;
+	}
+
+	for (int i = 0; i < 10; ++i)
+		printf("%d\n", ans[i]);
 
 	return 0;
 }

@@ -29,18 +29,32 @@ void remove_trailing_blanks(char * s)
 
 int main()
 {
-	int A, B, n, d, t, prev;
-	scanf("%d%d", &A, &B);
+	set<pair<int, bool> > s;
 
-	d = 0;
-	prev = INF;
-	for (n = B-A+1; n--; )
+	int d;
+	int a[ 30 ];
+	while (scanf("%d", &d) != EOF)
 	{
-		scanf("%d", &t);
+		for (int i = 0; i < d; ++i)
+			scanf("%d", a+i);
 
-		if (prev == INF) {
-			prev = t;
-			continue;
+		s.clear();
+
+		for (int i = 0; i < d; ++i)
+		{
+
+			if (s.find(make_pair(a[i], 1)) != s.end())
+			{
+				puts("This is not an A-sequence.");
+			} else
+			{
+				for (set<pair<int, bool> >::iterator it = s.begin();
+					it != s.end(); ++it)
+				{
+					s.insert(make_pair(it->first+a[i], 1));
+				}
+				s.insert(make_pair(a[i], 0));
+			}
 		}
 	}
 

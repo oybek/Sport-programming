@@ -29,19 +29,20 @@ void remove_trailing_blanks(char * s)
 
 int main()
 {
-	int A, B, n, d, t, prev;
-	scanf("%d%d", &A, &B);
-
-	d = 0;
-	prev = INF;
-	for (n = B-A+1; n--; )
+	while (1)
 	{
-		scanf("%d", &t);
+		int pos, a, b, c;
+		scanf("%d%d%d%d", &pos, &a, &b, &c);
+		if (pos + a + b + c == 0)
+			break;
 
-		if (prev == INF) {
-			prev = t;
-			continue;
-		}
+		int cwise = 720/9, ccwise = 360/9;
+
+		cwise += 40-abs(pos-a);
+		ccwise += abs(a-b);
+		cwise += 40-abs(b-c);
+
+		printf("%d\n", (cwise+ccwise)*9);
 	}
 
 	return 0;

@@ -27,21 +27,25 @@ void remove_trailing_blanks(char * s)
 	*++s = '\0';
 }
 
+typedef long long int64;
+
+#define SIZE 50000
+int64 a[ SIZE+1 ], s[ SIZE+1 ];
+
 int main()
 {
-	int A, B, n, d, t, prev;
-	scanf("%d%d", &A, &B);
+	int t;
 
-	d = 0;
-	prev = INF;
-	for (n = B-A+1; n--; )
+	a[0] = s[0] = 0;
+	for (int64 i = 1; i <= SIZE; ++i)
 	{
-		scanf("%d", &t);
+		a[i] = i*i*i;
+		s[i] = s[i-1] + a[i];
+	}
 
-		if (prev == INF) {
-			prev = t;
-			continue;
-		}
+	while (scanf("%d", &t) != EOF)
+	{
+		printf("%lld\n", s[t]);
 	}
 
 	return 0;

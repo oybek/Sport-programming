@@ -29,20 +29,43 @@ void remove_trailing_blanks(char * s)
 
 int main()
 {
-	int A, B, n, d, t, prev;
-	scanf("%d%d", &A, &B);
+	int n, ans = 0, pos = 0;
+	const int s_max_sz = 256;
+	char s[ s_max_sz ];
 
-	d = 0;
-	prev = INF;
-	for (n = B-A+1; n--; )
+	scanf("%d", &n);
+	while (n--)
 	{
-		scanf("%d", &t);
+		scanf("%s", s);
+		switch (tolower(s[0]))
+		{
+			case 'a':
+			case 'p':
+			case 'o':
+			case 'r':
+				ans += abs(pos - 0);
+				pos = 0;
+				break;
 
-		if (prev == INF) {
-			prev = t;
-			continue;
+			case 'b':
+			case 'm':
+			case 's':
+				ans += abs(pos - 1);
+				pos = 1;
+				break;
+
+			case 'd':
+			case 'g':
+			case 'j':
+			case 'k':
+			case 't':
+			case 'w':
+				ans += abs(pos - 2);
+				pos = 2;
+				break;
 		}
 	}
+	printf("%d", ans);
 
 	return 0;
 }

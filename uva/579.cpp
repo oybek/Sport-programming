@@ -27,21 +27,24 @@ void remove_trailing_blanks(char * s)
 	*++s = '\0';
 }
 
+#define H 30
+#define M 6
+
 int main()
 {
-	int A, B, n, d, t, prev;
-	scanf("%d%d", &A, &B);
-
-	d = 0;
-	prev = INF;
-	for (n = B-A+1; n--; )
+	int h, m;
+	float ans;
+	while (1)
 	{
-		scanf("%d", &t);
+		scanf("%d:%d", &h, &m);
+		if (!h && !m)
+			break;
 
-		if (prev == INF) {
-			prev = t;
-			continue;
-		}
+		h *= H;
+		m *= M;
+
+		ans = min(h-m, 360-(h-m));
+		printf("%.3f\n", roundf(ans*1000)/1000);
 	}
 
 	return 0;

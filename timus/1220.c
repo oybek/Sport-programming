@@ -4,60 +4,48 @@
 
 #define MAX_STACK_NUM 1000
 
-typedef struct node {
-	unsigned int v;
-	struct node * next;
-} node;
+struct node {
+	int v;
+	struct node * n;
+} * tmp;
 
-typedef struct stack {
-	node * top;
-} stack;
+#define PUSH(c, n)\
+	tmp = (struct node *) malloc(sizeof (struct node));\
+	tmp->n = c;\
+	c = tmp;\
+	c->v = n;\
 
-char com[5];
-node * tmp;
-stack st[ MAX_STACK_NUM ];
-unsigned int v, i, op;
+#define POP(c)\
+	if (c == NULL) break;\
+	printf("%d\n", c->v);\
+	tmp = c;\
+	c = c->n;\
+	free((void *) tmp);\
 
-void push(stack * st, unsigned int v)
-{
-	tmp = st->top;
-	st->top = (node *) malloc(sizeof (node));
-
-	st->top->next = tmp;
-	st->top->v = v;
-}
-
-unsigned int pop(stack * st)
-{
-	tmp = st->top;
-	st->top = tmp->next;
-	v = tmp->v;
-	free((void *) tmp);
-	return v;
-}
+int n, i, v;
+char s[5];
+struct node * st[1000];
 
 int main()
 {
-	printf("%ld\n", sizeof (stack));
-	scanf("%d", &op);
-
-	while ( op-- )
+	scanf("%d", &n);
+	while (n--)
 	{
-		scanf("%s", com);
-
-		switch ( com[1] )
+		scanf("%s", s);
+		switch (s[1])
 		{
 			case 'U':
-				scanf("%d%d", &i, &v);
-				push(st+i-1 , v);
-			break;
+				scanf("%d%d", &i, &v); --i;
+				PUSH(st[i], v);
+				break;
 
 			case 'O':
-				scanf("%d", &i);
-				printf("%d\n", pop(st+i-1));
-			break;
+				scanf("%d", &i); --i;
+				POP(st[i]);
+				break;
 		}
 	}
+
 
 	return 0;
 }

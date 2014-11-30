@@ -27,21 +27,28 @@ void remove_trailing_blanks(char * s)
 	*++s = '\0';
 }
 
+bool is_good(int * v, int v_sz)
+{
+	for (int i = 1; i < v_sz; ++i)
+		if (abs(v[i] - v[i-1]) > 2)
+			return false;
+	return true;
+}
+
 int main()
 {
-	int A, B, n, d, t, prev;
-	scanf("%d%d", &A, &B);
-
-	d = 0;
-	prev = INF;
-	for (n = B-A+1; n--; )
+	int v[ 10 ];
+	for (int i = 1; i <= 12; ++i)
 	{
-		scanf("%d", &t);
+		for (int j = 0; j < i; ++j)
+			v[j] = j+1;
 
-		if (prev == INF) {
-			prev = t;
-			continue;
-		}
+		int ans = 0;
+		do {
+			ans += is_good(v, i);
+		} while (next_permutation(v+1, v+i));
+
+		printf("f(%d) = %d\n", i, ans);
 	}
 
 	return 0;

@@ -27,21 +27,41 @@ void remove_trailing_blanks(char * s)
 	*++s = '\0';
 }
 
+const int max_m = 100;
+const int max_w = 25000;
+
+int n, m, c, s, i;
+int w[ max_m+1 ];
+int dp[ max_m+1 ][ max_w+1 ];
+
 int main()
 {
-	int A, B, n, d, t, prev;
-	scanf("%d%d", &A, &B);
+	scanf("%d", &n);
 
-	d = 0;
-	prev = INF;
-	for (n = B-A+1; n--; )
+	while (n--)
 	{
-		scanf("%d", &t);
-
-		if (prev == INF) {
-			prev = t;
-			continue;
+		scanf("%d", &m);
+		s = 0;
+		for (i = 1; i <= m; ++i)
+		{
+			scanf("%d", w+i);
+			s += w[i];
 		}
+
+		int max_c = s/2;
+
+		for (i = 1; i <= m; ++i)
+			for (c = 0; c <= max_c; ++c)
+				if (c < w[i])
+				{
+					dp[i][c] = dp[i-1][c];
+				}
+				else
+				{
+					dp[i][c] = max(dp[i-1][c], dp[i-1][c-w[i]]+w[i]);
+				}
+
+		printf("%d\n", s-2*dp[m][max_c]);
 	}
 
 	return 0;

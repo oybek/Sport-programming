@@ -1,90 +1,105 @@
 
+#include <set>
+#include <map>
+#include <queue>
+#include <cmath>
+#include <bitset>
 #include <cstdio>
+#include <string>
 #include <vector>
+#include <cstring>
+#include <climits>
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
-#define NO_COLOR 0
-#define BLACK 1
-#define WHITE 2
+typedef string::iterator si;
 
-#define MAX_V 1000+1
-int v_n;
-int color[ MAX_V ];
-vector<int> g[ MAX_V ];
+#define INF INT_MAX-1
+const int vertexNumMax = 101;
+typedef unsigned int uint32;
 
-vector<int> black_v;
+vector<vector<int> > G;
+bitset<vertexNumMax> ans;
 
-int get_blackn() {
-	int n = 0;
-	for (int i = 1; i <= v_n; ++i)
-		n += (color[i] == BLACK);
-	return n;
-}
+void backtrack(bitset<vertexNumMax> black, int iStart)
+{
+	vector<int> candidates; candidates.resize(0);
 
-bool can_be(int i, int col) {
-	if (col == WHITE)
-		return true;
+	for (uint32 i = iStart; i < G.size(); ++i)
+		if (! black[i])
+		{
+			bool f = true;
+			for (uint32 j = 0; j < G[i].size(); ++j)
+				if (black[ G[i][j] ])
+				{
+					f = false;
+					break;
+				}
 
-	for (int j = 0; j < int(g[i].size()); ++j)
-		if (color[ g[i][j] ] == BLACK)
-			return false;
-
-	return true;
-}
-
-void backtrack(int cur, int colored_n) {
-	if (colored_n == v_n) {
-		if (int(black_v.size()) < get_blackn()) {
-			black_v.resize(0);
-			for (int i = 0; i < v_n; ++i)
-				if (color[i] == BLACK)
-					black_v.push_back(i);
+			if (f)
+				candidates.push_back(i);
 		}
-	}
 
-	if (color[cur] != NO_COLOR)
+	if (candidates.size() == 0)
+	{
+		if (black.count() >= ans.count())
+			ans = black;
 		return;
+	}
 
-	for (int i = 0; i < int(g[cur].size()); ++i) {
-		if (can_be(cur, WHITE)) {
-			color[cur] = WHITE;
-			backtrack(g[cur][i], colored_n+1);
-		}
-
-		if (can_be(cur, BLACK)) {
-			color[cur] = BLACK;
-			backtrack(g[cur][i], colored_n+1);
-		}
-
-		color[cur] = NO_COLOR;
+	for (uint32 i = 0; i < candidates.size(); ++i)
+	{
+		black[candidates[i]] = 1;
+		backtrack(black, candidates[i]+1);
+		black[candidates[i]] = 0;
 	}
 }
 
-int main() {
-	int tt, e_n, x, y;
+int main()
+{
+	G.reserve(vertexNumMax);
 
-	for (int i = 0; i < MAX_V; ++i)
-		g[i].reserve(MAX_V);
+	int testNum;
+	scanf("%d", &testNum);
 
-	cin >> tt;
-	while (tt--) {
-		cin >> v_n >> e_n;
+	while (testNum--)
+	{
+		int vertexNum, edgeNum;
 
-		for (int i = 0; i < v_n; ++i) {
-			color[i] = NO_COLOR;
-			g[i].resize(0);
+		scanf("%d%d", &vertexNum, &edgeNum);
+
+		ans.reset();
+		G.resize(vertexNum+1);
+		for (int i = 1; i < int(G.size()); ++i)
+			G[i].resize(0);
+
+		while (edgeNum--)
+		{
+			int x, y;
+			scanf("%d%d", &x, &y);
+			G[x].push_back(y);
+			G[y].push_back(x);
 		}
 
-		while (e_n--) {
-			cin >> x >> y;
-			g[x].push_back(y);
-			g[y].push_back(x);
-		}
+		backtrack(ans, 1);
 
-		backtrack(0, 0);
+		printf("%d\n", int(ans.count()));
+
+		bool f2 = true;
+		for (int i = 1; i <= vertexNum; ++i)
+		{
+			if (ans[i])
+			{
+				if (f2) f2 = false;
+				else putchar(' ');
+				printf("%d", i);
+			}
+		}
+		puts("");
 	}
+
 
 	return 0;
 }

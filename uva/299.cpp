@@ -27,21 +27,43 @@ void remove_trailing_blanks(char * s)
 	*++s = '\0';
 }
 
+#define MAX_L 50
+
+int a_sz;
+int a[ MAX_L ];
+
+int insert(int n)
+{
+	int i, count = 0;
+	for (i = a_sz-1; a[i] > n; --i)
+	{
+		a[i+1] = a[i];
+		++count;
+	}
+	a[i+1] = n;
+	++a_sz;
+	return count;
+}
+
 int main()
 {
-	int A, B, n, d, t, prev;
-	scanf("%d%d", &A, &B);
-
-	d = 0;
-	prev = INF;
-	for (n = B-A+1; n--; )
+	int tt; /* number of test cases */
+	scanf("%d", &tt);
+	while (tt--)
 	{
-		scanf("%d", &t);
+		int L;
+		scanf("%d", &L);
 
-		if (prev == INF) {
-			prev = t;
-			continue;
+		a_sz = 0;
+		int ans = 0, t;
+		for (int i = 0; i < L; ++i)
+		{
+			scanf("%d", &t);
+
+			ans += insert(t);
 		}
+
+		printf("Optimal train swapping takes %d swaps.\n", ans);
 	}
 
 	return 0;

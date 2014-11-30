@@ -20,27 +20,30 @@ typedef string::iterator si;
 #define for_(t, i, a, b) for (t i = t(a); i != t(b); ++i)
 #define rep_(n) for_(int, i_, 0, n)
 
-void remove_trailing_blanks(char * s)
+const int n_max = 20;
+
+bool is_good(int * a, int * b, int i, int n)
 {
-	while (*s != '\0') ++s;
-	while (isblank(*s)) --s;
-	*++s = '\0';
 }
 
 int main()
 {
-	int A, B, n, d, t, prev;
-	scanf("%d%d", &A, &B);
+	int n,
+		a[ n_max+1 ]
+		b[ n_max+1 ];
 
-	d = 0;
-	prev = INF;
-	for (n = B-A+1; n--; )
+	scanf("%d", &n);
+
+	for (int i = 0; i < n; ++i)
+		scanf("%d", a+i);
+
+	while (!feof(stdin))
 	{
-		scanf("%d", &t);
+		for (int i = 0; i < n; ++i)
+			scanf("%d", b+i);
 
-		if (prev == INF) {
-			prev = t;
-			continue;
+		for (int i = 0; i < (1<<n); ++i)
+		{
 		}
 	}
 

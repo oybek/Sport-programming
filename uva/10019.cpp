@@ -27,21 +27,32 @@ void remove_trailing_blanks(char * s)
 	*++s = '\0';
 }
 
+int count_bit(int b)
+{
+	int c = 0;
+	while (b > 0)
+	{
+		c += b&1;
+		b >>= 1;
+	}
+	return c;
+}
+
 int main()
 {
-	int A, B, n, d, t, prev;
-	scanf("%d%d", &A, &B);
+	int test_n,
+		b1,
+		b2;
+	char s[ 64 ];
 
-	d = 0;
-	prev = INF;
-	for (n = B-A+1; n--; )
+	scanf("%d", &test_n);
+	while (test_n--)
 	{
-		scanf("%d", &t);
+		scanf("%s", s);
+		sscanf(s, "%d", &b1);
+		sscanf(s, "%x", &b2);
 
-		if (prev == INF) {
-			prev = t;
-			continue;
-		}
+		printf("%d %d\n", count_bit(b1), count_bit(b2));
 	}
 
 	return 0;

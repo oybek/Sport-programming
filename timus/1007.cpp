@@ -1,59 +1,47 @@
 
-#include <iostream>
 #include <vector>
+#include <cstdio>
+#include <cstring>
+#include <iostream>
 using namespace std;
 
-inline bool sum(const vector<bool> & word)
-{
-	long sum = 0;
-	for (int i = 0; i < word.size(); ++i)
-		sum += (i+1)*word[i];
+#define MAX_N 1000
 
-	return sum;
-}
-
-// pushes 0, 1 to pos i
-inline void push(vector<bool> & vec, int ind, bool val)
+int count_sum(char * s)
 {
-	vec.push_back(val);
-	for (int i = vec.size()-1; i != ind; --i) {
-		bool z = vec[i];
-		vec[i] = vec[i-1];
-		vec[i-1] = z;
-	}
+	int ans = 0;
+	for (char * c = s; *c; ++c)
+		if (*c == '1')
+			ans += (s-c)+1;
+	return ans;
 }
 
 int main() {
-	int n, c;
-	vector<bool> word;
-	cin >> n;
-	while (cin >> c) {
-		switch (c) {
-			case '0':
-				word.push_back(0);
-				break;
-			case '1':
-				word.push_back(1);
-				break;
-			case '\n':
-				if (word.size() == n) {
-					int s = sum(word);
-					if (s%(n+1))
-						word[s-(s%(n+1))] = 0;
-				}
-				else if (word.size() < n) {
-					int s = sum(word);
-					if (s%(n+1))
-						word.push_back(0);
-					else
-						push(word, (n-s%n)-1, 1);
-				}
-				else {
-				}
-				for (int i = 0; i < n; ++i)
-					cout << word[i];
-				cout << endl;
-				break;
+	int N, s_sz, sum;
+	char s[ MAX_N+1+1 ];
+
+	scanf("%d", &N);
+
+	for (int i = 0; i < N; ++i)
+	{
+		scanf("%s", s);
+		s_sz = strlen(s);
+
+		if (s_sz > N)
+		{
+		}
+		else if (s_sz < N)
+		{
+		}
+		else
+		{
+			sum = count_sum(s);
+			if (sum%(N+1) != 0)
+			{
+				int j;
+				for (j = sum%(N+1); j < N && s[j] == '0'; j += (N+1));
+				s[j] = '0';
+			}
 		}
 	}
 

@@ -29,19 +29,21 @@ void remove_trailing_blanks(char * s)
 
 int main()
 {
-	int A, B, n, d, t, prev;
-	scanf("%d%d", &A, &B);
-
-	d = 0;
-	prev = INF;
-	for (n = B-A+1; n--; )
+	int n, x, y, t, s = 0;
+	for (int i = 1; i < INF; ++i)
 	{
-		scanf("%d", &t);
-
-		if (prev == INF) {
-			prev = t;
-			continue;
+		scanf("%d", &n);
+		if (!n)
+			break;
+		scanf("%d%d", &x, &y);
+		while (n--)
+		{
+			scanf("%d", &t);
+			s += t;
 		}
+
+		printf("Case %d: ", i);
+		puts((x*y == s ? "Yes" : "No"));
 	}
 
 	return 0;

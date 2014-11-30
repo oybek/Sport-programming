@@ -27,20 +27,26 @@ void remove_trailing_blanks(char * s)
 	*++s = '\0';
 }
 
+typedef unsigned int uint32;
+
+uint32 n;
+const char * s[] = {
+	"00\n01\n81",
+	"0000\n0001\n2025\n3025\n9801",
+	"000000\n000001\n088209\n494209\n998001",
+	"00000000\n00000001\n04941729\n07441984\n24502500\n25502500\n52881984\n60481729\n99980001"
+};
+
 int main()
 {
-	int A, B, n, d, t, prev;
-	scanf("%d%d", &A, &B);
-
-	d = 0;
-	prev = INF;
-	for (n = B-A+1; n--; )
+	while (scanf("%u", &n) != EOF)
 	{
-		scanf("%d", &t);
-
-		if (prev == INF) {
-			prev = t;
-			continue;
+		switch (n)
+		{
+			case 2: puts(s[0]); break;
+			case 4: puts(s[1]); break;
+			case 6: puts(s[2]); break;
+			case 8: puts(s[3]);
 		}
 	}
 
