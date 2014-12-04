@@ -36,7 +36,17 @@ void dfs(register int ind) {
 
   if (!(board[ind].a[ ind ] & (1<<a[ind]))) {
    memcpy(board[ind+1].a, &board[ind].a , 13*sizeof(int));
-   for (i = ind, j = a[ind]; i<size && j<size; ++i, ++j) board[ind+1].a[i] |= (1<<j); for (i = ind, j = a[ind]; i<size && j>=0; ++i, --j) board[ind+1].a[i] |= (1<<j); board[ind+1].a[ind] = 65535; for (i = ind; i < size; ++i) board[ind+1].a[i] |= 1<<a[ind];;
+
+   for (i = ind, j = a[ind]; i<size && j<size; ++i, ++j)
+		 board[ind+1].a[i] |= (1<<j);
+
+	 for (i = ind, j = a[ind]; i<size && j>=0; ++i, --j)
+		 board[ind+1].a[i] |= (1<<j);
+
+	 board[ind+1].a[ind] = 65535;
+	 for (i = ind; i < size; ++i)
+		 board[ind+1].a[i] |= 1<<a[ind];
+
    dfs(ind+1);
   }
  }

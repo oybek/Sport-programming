@@ -7,64 +7,63 @@ LANG: C++
 
 #define PROB_NAME "concom"
 
+#include <cmath>
+#include <bitset>
+#include <cstdio>
 #include <vector>
-#include <fstream>
+#include <cstdlib>
 #include <iostream>
+#include <algorithm>
+using namespace std;
 
-#define repeat(n) for (int _i = 0; _i < (n); ++_i)
+#define SIZE 101
 
-std::ifstream fin	(PROB_NAME".in");
-std::ofstream fout	(PROB_NAME".out");
+int owns[ SIZE ][ SIZE ];
+bool ctrl[ SIZE ][ SIZE ];
 
-#define MAX_COM 101
+int main()
+{
+#ifndef LOCAL
+	freopen(PROB_NAME".in", "rt", stdin);
+	freopen(PROB_NAME".out", "wt", stdout);
+#endif
 
-int owns[ MAX_COM ][ MAX_COM ] = {}, n;
-int control[ MAX_COM ][ MAX_COM ] = {};
-
-bool does_control(int i, int j) {
-	using namespace std;
-	//cout << i << ' ' << j << endl;
-
-	if (i == j || owns[i][j] > 50)
-		return true;
-	if (control[i][j] != -1)
-		return control[i][j];
-
-	int s = 0, x;
-	for (x = 1; x <= n; ++x) {
-		//cout << x << ' ' << i << ' ' << j << endl;
-		if ((x != i) && (x != j) &&
-			(control[i][x] = does_control(i, x)))
-			s += owns[x][j];
-	}
-
-	return (control[i][j] = (s > 50));
-}
-
-int main() {
-	using namespace std;
-
-	int i, j, p;
-	fin >> n;
-	repeat(n) {
-		fin >> i >> j >> p;
+	int n;
+	scanf("%d", &n);
+	while (n--)
+	{
+		int i, j, p;
+		scanf("%d%d%d\n", &i, &j, &p);
 		owns[i][j] = p;
 	}
 
-	for (i = 1; i <= n; ++i)
-		for (j = 1; j <= n; ++j)
-			control[i][j] = -1;
+	bool f = true;
+	while (f)
+	{
+		f = false;
 
-	for (i = 1; i <= n; ++i)
-		for (j = 1; j <= n; ++j) {
-			cout << i << ' ' << j << endl;
-			control[i][j] = does_control(i, j);
-		}
+		for (int i=1; i < SIZE; ++i)
+			for (int j=1; j < SIZE; ++j)
+			{
+				if (!ctrl[i][j])
+				{
+					int s = 0;
+					for (int k = 1; k < SIZE; ++k)
+						s += ctrl[i][k] * owns[k][j];
 
-	for (i = 1; i <= n; ++i)
-		for (j = i+1; j <= n; ++j)
-			if (control[i][j])
-				fout << i << ' ' << j << endl;
+					if (i == j || s > 50)
+					{
+						ctrl[i][j] = 1;
+						f = true;
+					}
+				}
+			}
+	}
+
+	for (int i=1; i < SIZE; ++i)
+		for (int j=1; j < SIZE; ++j)
+			if (i != j && ctrl[i][j])
+				printf("%d %d\n", i, j);
 
 	return 0;
 }
