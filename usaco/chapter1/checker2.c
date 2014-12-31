@@ -8,13 +8,15 @@ LANG: C
 #include <stdio.h>
 #include <string.h>
 
+#define SIZE 20
+
 int size;
 int sol_num;
-int a[ 13 ];
+int a[ SIZE ];
 
 struct _board {
- unsigned int a[ 13 ];
-} board[ 14 ];
+ unsigned int a[ SIZE ];
+} board[ SIZE+1 ];
 
 FILE * fin, * fout;
 void dfs(register int ind) {
@@ -35,7 +37,7 @@ void dfs(register int ind) {
  for (a[ind] = 0; a[ind] < size; ++a[ind]) {
 
   if (!(board[ind].a[ ind ] & (1<<a[ind]))) {
-   memcpy(board[ind+1].a, &board[ind].a , 13*sizeof(int));
+   memcpy(board[ind+1].a, &board[ind].a , SIZE*sizeof(int));
 
    for (i = ind, j = a[ind]; i<size && j<size; ++i, ++j)
 		 board[ind+1].a[i] |= (1<<j);

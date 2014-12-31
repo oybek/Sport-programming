@@ -7,8 +7,8 @@
 #include <algorithm>
 using namespace std;
 
-#define for_(t, i, a, b) for (t i = t(a); i != t(b+1); ++i)
-#define rep_(n) for_(int, i_, 1, n)
+#define FOR(t, i, a, b) for (t i = t(a); i != t(b+1); ++i)
+#define REP(n) FOR(int, i_, 1, n)
 
 int main()
 {
@@ -19,12 +19,12 @@ int main()
 
 	cin >> tt;
 
-	for_(int, i, 1, tt)
+	FOR(int, i, 1, tt)
 	{
 		a.resize(0);
 		max_rel = INT_MIN;
 
-		rep_(10)
+		REP(10)
 		{
 			cin >> s >> rel;
 			a.push_back(make_pair(s, rel));
@@ -32,7 +32,7 @@ int main()
 		}
 
 		cout << "Case #" << i << ":\n";
-		for_(int, j, 0, a.size()-1)
+		FOR(int, j, 0, a.size()-1)
 			if (a[j].second == max_rel)
 				cout << a[j].first << endl;
 	}

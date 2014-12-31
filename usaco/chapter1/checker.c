@@ -16,8 +16,8 @@ need less then 0.5 seconds
 #include <stdio.h>
 #include <string.h>
 
-#define MAX_SIZE 13
-#define MAX_DEEP 14
+#define MAX_SIZE 20
+#define MAX_DEEP MAX_SIZE+1
 
 int size;
 int sol_num;

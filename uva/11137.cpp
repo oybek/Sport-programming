@@ -6,24 +6,25 @@ using namespace std;
 #define every(i, a, b) for (int i = (a); i <= int(b); ++i)
 #define repeat(n) every (i, 1, n)
 
-#define DP_SZ 10000
+#define D_SZ 10000
 
-int denom[ 22 ], n;
-long long dp[ DP_SZ ];
+int a[ 22 ], n;
+int d[ D_SZ ];
 
-int main() {
-	for (int i = 1; i <= 21; ++i)
-		denom[i] = i*i*i;
+int main()
+{
+	for (int i = 1; i <= 22; ++i)
+		a[i] = i*i*i;
 
-	dp[0] = 1;
-	for (int i = 1; i <= DP_SZ; ++i) {
+	d[0] = 1;
+	for (int i = 1; i < D_SZ; ++i)
 		for (int j = 1; j <= 21; ++j)
-			if (i >= denom[j])
-				dp[i] += dp[ i-denom[j] ];
-	}
+			d[i] += max(0, i - a[j]);
 
-	while (cin >> n) {
-		cout << dp[n] << endl;
+	int n;
+	while (cin >> n)
+	{
+		cout << d[n] << endl;
 	}
 
 	return 0;

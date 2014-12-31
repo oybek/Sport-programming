@@ -14,49 +14,64 @@ using namespace std;
  * Write me about bugs and suggestions: aybek_hashimov@mail.ru
  */
 
-template <const int V_SIZE>
-class integer {
+#define GEN_OPERATOR(o, type)							\
+	inline const integer operator o (type b) const		\
+	{													\
+		integer tmp(*this);								\
+		tmp o ## = b;									\
+		return tmp;										\
+	}
+
+template <const int S_SIZE_MAX>
+class integer
+{
 	private:
-		int s;			/* number is negative if s < 0 otherwise positive */
-		int vn;			/* size of vector v */
-		char v[ V_SIZE ];
+		int k;			/* number is negative if k < 0 otherwise positive */
+		int sn;			/* size of vector s */
+		char s[ S_SIZE_MAX ];
 
 	public:
 		integer() { *this = 0; }
 		integer(const int n) { *this = n; }
-		integer(const integer & n) { *this = n; }
 		integer(const char * str) { *this = str; }
+		integer(const integer & n) { *this = n; }
 
-		const integer & operator = (const int a) {
-			if (a == 0) {
-				s = vn = 1;
-				v[0] = 0;
+		const integer & operator = (int a)
+		{
+			if (a == 0)
+			{
+				k = 1; sn = 1; *s = 0;
 				return *this;
 			}
 
-			s = a < 0 ? -1: 1;
-			int b = std::abs(a);
-			for (vn = 0; b > 0; b /= 10) v[vn++] = b % 10;
+			k = a < 0 ? -1: 1;
+			a = std::abs(a);
+			for (sn = 0; a > 0; a /= 10)
+				s[sn++] = a % 10;
 
 			return *this;
 		}
 
-		const integer & operator = (const integer & n) {
-			s = n.s;
-			vn = n.vn;
-			for (int i = 0; i < vn; ++i) v[i] = n.v[i];
+		const integer & operator = (const integer & n)
+		{
+			k = n.k;
+			sn = n.sn;
+			for (int i = 0; i < sn; ++i) s[i] = n.s[i];
 
 			return *this;
 		}
+
 		/* s ~= [-]?[0-9]+ */
-		const integer & operator = (const char * str) {
+		const integer & operator = (const char * str)
+		{
 			int i = 0, j = strlen(str)-1;
-			vn = 0;
+			sn = 0;
 
-			s = +1;
-			switch (str[0]) {
-				case '-': s = -1; ++i; break;
-				case '+': s = +1; ++i; break;
+			k = +1;
+			switch (str[0])
+			{
+				case '-': k = -1; ++i; break;
+				case '+': k = +1; ++i; break;
 			}
 
 			while (str[i] == '0')
@@ -64,55 +79,64 @@ class integer {
 					return *this = 0;
 
 			while (j >= i)
-				v[vn++] = str[j--]-'0';
+				s[sn++] = str[j--]-'0';
 
 			return *this;
 		}
 
-		const integer & operator += (const integer & n) {
-			s != n.s ? dec(n): add(n);
+		const integer & operator += (const integer & n)
+		{
+			k != n.k ? dec(n): add(n);
 			correct();
 
 			return *this;
 		}
 
-		const integer & operator -= (const integer & n) {
-			s == n.s ? dec(n): add(n);
+		const integer & operator -= (const integer & n)
+		{
+			k == n.k ? dec(n) : add(n);
 			correct();
 
 			return *this;
 		}
 
-		const integer & operator *= (const integer & n) {
+		const integer & operator *= (const integer & n)
+		{
 			integer tmp;
-			for (int i = n.vn-1; i >= 0; --i) {
+			for (int i = n.sn-1; i >= 0; --i)
+			{
 				tmp <<= 1;
-				for (int j = 0; j < n.v[i]; ++j)
+				for (int j = 0; j < n.s[i]; ++j)
 					tmp += *this;
 			}
 
 			*this = tmp;
-			s *= n.s;
+			k *= n.k;
 			correct();
 
 			return *this;
 		}
 
-		const integer & operator /= (const integer & n) {
-			if (n == 0) {
-				std::cerr << "const integer & operator /= (integer &): error: division by zero" << std::endl;
+		const integer & operator /= (const integer & n)
+		{
+			if (n == 0)
+			{
+				std::cerr
+					<< "const integer & operator /= (const integer &): error: division by zero"
+					<< std::endl;
 				return *this;
 			}
 
 			int i;
 			integer tmp;
-			s *= n.s;
+			k *= n.k;
 
-			for (i = vn-1; i >= 0; --i) {
+			for (i = sn-1; i >= 0; --i)
+			{
 				tmp <<= 1;
-				tmp.v[0] = v[i];
-				v[i] = 0;
-				for (; cmp(tmp, n, 1) >= 0; ++v[i])
+				tmp.s[0] = s[i];
+				s[i] = 0;
+				for (; cmp(tmp, n, 1) >= 0; ++s[i])
 					if (n < 0) tmp += n;
 					else tmp -= n;
 			}
@@ -122,7 +146,8 @@ class integer {
 			return *this;
 		}
 
-		const integer & operator %= (const integer & n) {
+		const integer & operator %= (const integer & n)
+		{
 			if (cmp(*this, n, 1) < 0)
 				return *this;
 
@@ -136,64 +161,60 @@ class integer {
 			return *this;
 		}
 
-#define gen_(o, type)\
-	inline const integer operator o (type b) const {\
-		integer tmp(*this);\
-		tmp o ## = b;\
-		return tmp;\
-	}
-	gen_(+, const integer &)
-	gen_(-, const integer &)
-	gen_(*, const integer &)
-	gen_(/, const integer &)
-	gen_(%, const integer &)
-#undef gen_
+		GEN_OPERATOR(+, const integer &)
+		GEN_OPERATOR(-, const integer &)
+		GEN_OPERATOR(*, const integer &)
+		GEN_OPERATOR(/, const integer &)
+		GEN_OPERATOR(%, const integer &)
 
-		const integer & operator <<= (int d) {
-			if (d == 0 || *this == 0) return *this;
+		const integer & operator <<= (int d)
+		{
+			if (d == 0 || *this == 0)
+				return *this;
 
-			int i = (vn += d) - 1;
-			for (; i >= d; --i) v[ i ] = v[ i-d ];
-			for (; i >= 0; --i) v[ i ] = 0;
+			int i = (sn += d) - 1;
+
+			for (; i >= d; --i)
+				s[ i ] = s[ i-d ];
+
+			for (; i >= 0; --i)
+				s[ i ] = 0;
 
 			correct();
+
 			return *this;
 		}
 
-		const integer & operator >>= (int d) {
-			if (d == 0 || *this == 0) return *this;
+		const integer & operator >>= (int d)
+		{
+			if (d == 0 || *this == 0)
+				return *this;
 
-			vn -= d;
-			for (int i = 0; i < vn; ++i) v[ i ] = v[ i+d ];
+			sn -= d;
+			for (int i = 0; i < sn; ++i)
+				s[ i ] = s[ i+d ];
 
 			correct();
+
 			return *this;
 		}
 
-
-		friend std::istream & operator >> (std::istream & in, integer & b) {
-			std::string s;
-			in >> s;
-			b.vn = 0;
-			for (int i = s.size()-1; i >= 0; --i) {
-				switch (s[i]) {
-					case '-':
-						b.s = -1;
-						break;
-					case '0': case '1': case '2': case '3': case '4':
-					case '5': case '6': case '7': case '8': case '9':
-						b.v[ b.vn++ ] = char(s[i]-'0');
-						break;
-				}
-			}
+		friend std::istream & operator >> (std::istream & in, integer & b)
+		{
+			std::string k;
+			in >> k;
+			b = k.c_str();
 			b.correct();
 			return in;
 		}
 
-		friend std::ostream & operator << (std::ostream & out, const integer & b) {
-			if (b.s < 0) out << '-';
-			for (int i = b.vn-1; i >= 0; --i)
-				out << char(b.v[i] + '0');
+		friend std::ostream & operator << (std::ostream & out, const integer & b)
+		{
+			if (b.k < 0)
+				out << '-';
+
+			for (int i = b.sn-1; i >= 0; --i)
+				out << char(b.s[i] + '0');
 
 			return out;
 		}
@@ -205,79 +226,114 @@ class integer {
 		friend bool operator == (const integer & a, const integer & b) { return cmp(a, b) == 0; }
 		friend bool operator != (const integer & a, const integer & b) { return cmp(a, b) != 0; }
 
+		inline int dign() { return sn; }
+
+		std::string str() const
+		{
+			std::string tmp; tmp.reserve(S_SIZE_MAX);
+			if (k < 0)
+				tmp.push_back('-');
+			for (const char * c = s + sn - 1; c >= s; --c)
+				tmp.push_back(*c+'0');
+
+			return tmp;
+		}
+
 	private:
-		/* *this = |*this| + |n|, doesn't change sign of *this */
-		inline void add(const integer & n) {
+		/*
+		 * *this = |*this| + |n|, doesn't change sign of *this
+		 */
+		inline void add(const integer & n)
+		{
 			char carry = 0;
-			for (; vn < n.vn; v[vn++] = 0);
-			for (int i = 0; i < vn; ++i) {
-				v[i] = (i < vn ? v[i]: 0) + (i < n.vn ? n.v[i]: 0) + carry;
-				carry = v[i] / 10;
-				v[i] %= 10;
+
+			while ( sn < n.sn )
+				s[ sn++ ] = 0;
+
+			for (int i = 0; i < sn; ++i)
+			{
+				s[i] = (i < sn ? s[i]: 0) + (i < n.sn ? n.s[i]: 0) + carry;
+				carry = s[i] / 10;
+				s[i] %= 10;
 			}
-			if (carry > 0) {
-				v[ vn++ ] = carry;
-			}
+			if (carry > 0)
+				s[ sn++ ] = carry;
 		}
 
-		/* *this = |*this| - |n|, doesn't change sign of *this */
-		inline void dec(const integer & n) {
+		/*
+		 * *this = |*this| - |n|, doesn't change sign of *this
+		 */
+		inline void dec(const integer & n)
+		{
 			char borrow = 0;
-			if (cmp(*this, n, 1) < 0) {
-				for (int i = 0; i < n.vn; ++i) {
-					if (i < vn)
-						v[i] = n.v[i] - borrow - v[i];
+			if ( cmp(*this, n, 1) < 0 )
+			{
+				for (int i = 0; i < n.sn; ++i)
+				{
+					if (i < sn)
+						s[i] = n.s[i] - borrow - s[i];
 					else
-						v[ vn++ ] = n.v[i] - borrow;
-					if ((borrow = (v[i] < 0)))
-						v[i] += 10;
+						s[ sn++ ] = n.s[i] - borrow;
+
+					if ((borrow = (s[i] < 0)))
+						s[i] += 10;
 				}
-				s = -s;
-			} else {
-				for (int i = 0; i < vn; ++i) {
-					v[i] -= borrow;
-					if (i < n.vn)
-						v[i] -= n.v[i];
-					if ((borrow = (v[i] < 0)))
-						v[i] += 10;
+				k = -k;
+			}
+			else
+			{
+				for (int i = 0; i < sn; ++i)
+				{
+					s[i] -= borrow;
+
+					if (i < n.sn)
+						s[i] -= n.s[i];
+
+					if ((borrow = (s[i] < 0)))
+						s[i] += 10;
 				}
 			}
 		}
 
-		friend int cmp(const integer & a, const integer & b, bool ignore_s = 0) {
-			if (!ignore_s && a.s != b.s)
-				return a.s - b.s;
-			if (a.vn != b.vn)
-				return (a.s ? a.vn - b.vn: b.vn - a.vn);
+		friend int cmp(const integer & a, const integer & b, bool ignore_s = 0)
+		{
+			if (!ignore_s && a.k != b.k)
+				return a.k - b.k;
+
+			if (a.sn != b.sn)
+				return (a.k ? a.sn - b.sn: b.sn - a.sn);
+
 			int i;
-			for (i = a.vn-1; a.v[i] == b.v[i];)
+			for (i = a.sn-1; a.s[i] == b.s[i];)
 				if (--i < 0) return 0;
-			return a.v[i] - b.v[i];
+
+			return a.s[i] - b.s[i];
 		}
 
-		inline void correct() {
-			for ( ; vn > 1 && v[ vn-1 ] == 0; --vn);	/* remove leading zeroes */
-			if (vn == 1 && v[ vn-1 ] == 0) s = 1;		/* -0 is impossible */
-			if (vn < 1) *this = 0;						/* vn can't be less 1 */
+		inline void correct()
+		{
+			for ( ; sn > 1 && s[ sn-1 ] == 0; --sn);	/* remove leading zeroes */
+
+			if (sn == 1 && s[ sn-1 ] == 0)
+				k = 1;		/* -0 is impossible */
+
+			if (sn < 1) *this = 0;						/* sn can't be less 1 */
 		}
 };
 
-int main() {
-	char o, * p;
-	char s[10000];
+int main()
+{
+	char s[3][10000];
 	integer<1024> a, b, c, max_int = "2147483647";
 
-	while (!feof(stdin)) {
-		fgets(s, 10000, stdin);
-		fputs(s, stdout);
+	while (scanf("%s%s%s", s[0], s[1], s[2]) != EOF)
+	{
+		printf("%s %s %s\n", s[0], s[1], s[2]);
 
-		for (p = s; (*p != '+') && (*p != '*'); ++p);
-		o = *p;
+		a = s[0];
+		b = s[2];
 
-		a = s;
-		b = p+1;
-
-		switch (o) {
+		switch (s[1][0]) {
 			case '+':
 				c = a + b;
 				if (a > max_int) puts("first number too big");
