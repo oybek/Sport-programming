@@ -14,11 +14,7 @@
 
 using namespace std;
 
-typedef string::iterator si;
-
 #define INF INT_MAX-1
-
-#define FOR(t, i, a, b) for (t i = t(a); i != t(b); ++i)
 
 int main()
 {
