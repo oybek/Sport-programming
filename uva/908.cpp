@@ -7,6 +7,7 @@
 #include <cstdio>
 #include <string>
 #include <vector>
+#include <cassert>
 #include <cstring>
 #include <climits>
 #include <iostream>
@@ -16,16 +17,15 @@ using namespace std;
 
 #define INF INT_MAX-1
 
-#define MAX_N 1000001
-#define MAX_M 1000001
+#define N_MAX 1000001
 
 struct edge
 {
-	int x, y, w;
+	int a, b, w;
 
-	edge(int ax = 0, int ay = 0, int aw = 0)
-		: x(ax)
-		, y(ay)
+	edge(int aa = 0, int ab = 0, int aw = 0)
+		: a(aa)
+		, b(ab)
 		, w(aw)
 	{}
 
@@ -35,40 +35,70 @@ struct edge
 	}
 };
 
-int N, K, M, parent[ MAX_N ], en;
-edge e[ MAX_M ];
+int parent[ N_MAX ];
+int find_set(int x) { return (x == parent[x] ? x : parent[x] = find_set(parent[x])); }
+void union_set(int x, int y) { parent[ find_set(x) ] = parent[ find_set(y) ]; }
 
-int ds_find(int x)
-{
-	return (x == parent[x] ? x : parent[x] = ds_find(parent[x]));
-}
+int N, K, M, a, b, w;
+vector<edge> edges;
 
-void ds_union(int x, int y)
+int get_min_mst_cost()
 {
-	parent[ds_find(x)] = ds_find(y);
+	sort(edges.begin(), edges.end());
+
+	int min_cost = 0, count = N-1;
+	for (vector<edge>::const_iterator it = edges.begin();
+		it != edges.end() && count > 0;
+		++it)
+	{
+		if (find_set(it->a) == find_set(it->b))
+			continue;
+
+		--count;
+		min_cost += it->w;
+		union_set(it->a, it->b);
+	}
+
+	return min_cost;
 }
 
 int main()
 {
-	int i, t;
-	while (scanf("%d", &N) != EOF)
+	bool f = true;
+	edges.reserve(2000000);
+
+	while (cin >> N)
 	{
-		en = 0;
-		for (i = 1; i <= N; ++i)
+		/* initialization */
+		edges.clear();
+		int initial_cost = 0;
+		for (int i = 0; i < N_MAX; ++i)
 			parent[i] = i;
 
-		for (; N--; )
-			scanf("%d%d%d", &t, &t, &t);
+		/* input */
+		for (int i = 1; i < N; ++i)
+		{
+			cin >> a >> b >> w;
+			initial_cost += w;
+		}
 
-		scanf("%d", &K);
-		for (; K--; ++en)
-			scanf("%d%d%d", &e[en].x, &e[en].y, &e[en].w);
+		cin >> K;
+		while (K--)
+		{
+			cin >> a >> b >> w;
+			edges.push_back(edge(a, b, w));
+		}
 
-		scanf("%d", &M);
-		for (; M--; ++en)
-			scanf("%d%d%d", &e[en].x, &e[en].y, &e[en].w);
+		cin >> M;
+		while (M--)
+		{
+			cin >> a >> b >> w;
+			edges.push_back(edge(a, b, w));
+		}
 
-		sort(e, e+en);
+		if (f) f = false; else cout << endl;
+		cout	<< initial_cost << endl
+				<< get_min_mst_cost() << endl;
 	}
 
 	return 0;
