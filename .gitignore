@@ -1,10 +1,6 @@
 
-timus/*swp
-timus/*out
-
-uva/*.swp
-uva/*.out
-
-usaco/chapter*/*.swp
-usaco/chapter*/*.out
+**/.swp
+**/.swo
+**/.exe
+**/a.out
 

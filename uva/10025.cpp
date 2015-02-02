@@ -9,7 +9,6 @@
 int main()
 {
 	using namespace std;
-
 	int t, n, k;
 	cin >> t;
 	while ( t-- )
@@ -21,7 +20,6 @@ int main()
 			++n;
 		cout << n << endl;
 	}
-
 	return 0;
 }
 

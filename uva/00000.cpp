@@ -16,11 +16,14 @@
 #include <iostream>
 #include <algorithm>
 
+inline void DEBUG(bool cond, const char * msg) {
 #ifdef DO_DEBUG
-	#define debug(x) std::cerr << x << '\n'
-#else
-	#define debug(x)
+	if (cond) {
+		std::cerr << msg << '\n';
+		exit(0);
+	}
 #endif
+}
 
 #define INF INT_MAX-1
 #define SQR(x) ((x)*(x))
