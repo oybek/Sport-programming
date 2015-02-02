@@ -6,12 +6,12 @@
 
 struct node {
 	int v;
-	struct node * n;
+	struct node * next;
 } * tmp;
 
 #define PUSH(c, n)\
 	tmp = (struct node *) malloc(sizeof (struct node));\
-	tmp->n = c;\
+	tmp->next = c;\
 	c = tmp;\
 	c->v = n;\
 
@@ -19,12 +19,12 @@ struct node {
 	if (c == NULL) break;\
 	printf("%d\n", c->v);\
 	tmp = c;\
-	c = c->n;\
+	c = c->next;\
 	free((void *) tmp);\
 
 int n, i, v;
 char s[5];
-struct node * st[1000];
+struct node * st[MAX_STACK_NUM];
 
 int main()
 {
@@ -45,8 +45,6 @@ int main()
 				break;
 		}
 	}
-
-
 	return 0;
 }
 
