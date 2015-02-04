@@ -17,15 +17,15 @@ struct coord {
 	}
 };
 
-double d(const coord & a, const coord & b) {
-	return sqrtf( static_cast<double>(sqr(a.x - b.x) + sqr(a.y - b.y)) );
+long double d(const coord & a, const coord & b) {
+	return sqrtl(static_cast<long double>(sqr(a.x - b.x) + sqr(a.y - b.y)));
 }
 
-double len(const vector<coord> & v) {
-	double s = 0.0;
+long double len(const vector<coord> & v) {
+	long double s = 0.0;
 	size_t i;
-	for ( i = 1; i < v.size(); ++i )
-		s += d( v[ i-1 ], v[ i ] ) + 16.0;
+	for (i = 1; i < v.size(); ++i)
+		s += d(v[ i-1 ], v[ i ]) + 16.0;
 
 	return s;
 }
@@ -34,16 +34,16 @@ int main() {
 	size_t i, v_size, testi = 1;
 	vector<coord> v; v.reserve(8);
 
-	double l, min_l = 10000000000.0;
+	long double l, min_l = 10000000000.0;
 	vector<coord> min_v;
 
-	while ( cin >> v_size ) {
-		if ( !v_size )
+	while (cin >> v_size) {
+		if (!v_size)
 			break;
 
-		v.resize( v_size );
+		v.resize(v_size);
 
-		for ( i = 0; i < v.size(); ++i )
+		for (i = 0; i < v.size(); ++i)
 			cin >> v[ i ].x >> v[ i ].y;
 
 		sort(v.begin(), v.end());
@@ -51,19 +51,19 @@ int main() {
 		do {
 			l = len(v);
 
-			if ( l < min_l ) {
+			if (l < min_l) {
 				min_l = l;
 				min_v = v;
 			}
-		} while ( next_permutation(v.begin(), v.end()) );
+		} while (next_permutation(v.begin(), v.end()));
 
 		cout	<< "**********************************************************\n"
 				<< "Network #" << testi << endl;
 
-		for ( i = 1; i < v.size(); ++i ) {
+		for (i = 1; i < v.size(); ++i) {
 			cout	<< "Cable requirement to connect "
-					<< "(" << v[ i-1 ].x	<< "," << v[ i-1 ].y	<< ") to "
-					<< "(" << v[ i ].x		<< "," << v[ i ].y		<< ")"
+					<< "(" << v[i-1].x	<< "," << v[i-1].y	<< ") to "
+					<< "(" << v[i].x		<< "," << v[i].y		<< ")"
 					<< " is " << fixed << setprecision(2) << d(v[ i-1 ], v[i]) + 16.0 << " feet.\n";
 		}
 
