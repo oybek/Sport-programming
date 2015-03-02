@@ -24,32 +24,29 @@ typedef long long int64;
 
 using namespace std;
 
-#define cubes_sz 60
-int cubes[cubes_sz];
+bool is_palindrome(const string & s) {
+	int i = 0;			while (i < s.size()	&& !isalpha(s[i])) ++i;
+	int j = s.size()-1;	while (j >= 0		&& !isalpha(s[j])) --j;
+
+	while (i < j) {
+		if (tolower(s[i]) != tolower(s[j]))
+			return false;
+		++i, --j;
+		while (i < s.size()	&& !isalpha(s[i])) ++i;
+		while (j >= 0		&& !isalpha(s[j])) --j;
+	}
+	return true;
+}
 
 int main() {
-	for (int n = 1; n < cubes_sz; ++n)
-		cubes[n] = n*n*n;
-
-	int N;
+	string s;
 	while (1) {
-		cin >> N;
-		if (N == 0)
+		getline(cin, s);
+
+		if (s == "DONE")
 			break;
 
-		bool solution_found = false;
-		for (int * y = cubes+1; y != cubes+cubes_sz; ++y) {
-			int * x = lower_bound(cubes, cubes+cubes_sz, N+*y);
-			if ((x != cubes+cubes_sz) && (*x == N+*y)) {
-				solution_found = true;
-				cout << x-cubes << ' ' << y-cubes << endl;
-				break;
-			}
-		}
-
-		if (!solution_found) {
-			cout << "No solution\n";
-		}
+		cout << (is_palindrome(s) ? "You won't be eaten!" : "Uh oh..") << endl;
 	}
 
 	return 0;

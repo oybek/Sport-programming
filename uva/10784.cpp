@@ -22,36 +22,19 @@
 typedef unsigned long long uint64;
 typedef long long int64;
 
-typedef unsigned int uint32;
-
 using namespace std;
 
-#define N_MAX 16
-
-int N, soln;
-bitset<N_MAX> attacked[N_MAX][N_MAX];
-
-void place_queen(int x, int y) {
-	attacked[x][x].set();
-	for (int i = 0; i < N; ++i) {
-		attacked[x][i].set(y);
-		attacked[x][i].set(i);
-		attacked[x][i].set(N-1-i);
-	}
-}
-
-void backtrack(int x) {
-	if (x == N) {
-		++soln;
-		return;
-	}
-
-	for (int y = 0; y < N; ++y) {
-		if (!attacked[x][x][y])
-	}
-}
-
 int main() {
+	uint64 N;
+	for (int test_i = 1; ; ++test_i) {
+		/* input stage */
+		cin >> N;
+		if (N == 0)
+			break;
+
+		uint64 N_sqrt = floor(sqrt(8*N + 9));
+		cout << "Case " << test_i << ": " << (3 + N_sqrt)/2 + (SQR(N_sqrt) < 8*N + 9) << endl;
+	}
 
 	return 0;
 }

@@ -19,6 +19,9 @@
 #define INF INT_MAX-1
 #define SQR(x) ((x)*(x))
 
+typedef unsigned long long uint64;
+typedef long long int64;
+
 using namespace std;
 
 int main() {

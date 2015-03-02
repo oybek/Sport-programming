@@ -1,133 +1,95 @@
 
 #include <set>
 #include <map>
+#include <list>
+#include <stack>
 #include <queue>
 #include <cmath>
 #include <bitset>
 #include <cstdio>
 #include <string>
 #include <vector>
+#include <cassert>
 #include <cstring>
 #include <climits>
+#include <iomanip>
 #include <iostream>
 #include <algorithm>
+#include <unordered_map>
+
+#define INF INT_MAX-1
+#define SQR(x) ((x)*(x))
+
+typedef unsigned long long uint64;
+typedef long long int64;
 
 using namespace std;
 
-typedef string::iterator si;
+#define N_MAX 31
 
-#define INF INT_MAX-1
-#define for_(t, i, a, b) for (t i = t(a); i != t(b); ++i)
-#define rep_(n) for_(int, i_, 0, n)
+int N;
+list<int> G[N_MAX];
+bitset<N_MAX> visited;
 
-void remove_trailing_blanks(char * s)
-{
-	while (*s != '\0') ++s;
-	while (isblank(*s)) --s;
-	*++s = '\0';
-}
+int bfs(int n, int ttl) {
+	visited.reset();
+	queue<pair<int, int> > Q;
 
-#define MAX_V_NUM 2048
+	Q.push(make_pair(n, ttl));
+	visited[n] = true;
 
-bitset<MAX_V_NUM> was;
-vector<vector<int> > g;
+	int visited_n = 0;
+	while (!Q.empty()) {
+		pair<int, int> cur = Q.front(); Q.pop();
+		++visited_n;
 
-void bfs(int n, int ttl)
-{
-	queue<pair<int, int> > q;
-
-	was.reset();
-
-	if (!was[n] && ttl > 0)
-	{
-		q.push(make_pair(n, ttl));
-	}
-	was[n] = true;
-
-	while (! q.empty())
-	{
-		pair<int, int> cur = q.front(); q.pop();
-
-		if (cur.second <= 0)
-			continue;
-
-		for (int i = 0; i < int(g[ cur.first ].size()); ++i)
-			if (! was[ g[ cur.first ][i] ])
-			{
-				was[ g[ cur.first ][i] ] = true;
-				q.push(make_pair(g[ cur.first ][i], cur.second-1));
+		for (list<int>::iterator it = G[cur.first].begin(); it != G[cur.first].end(); ++it) {
+			if (!visited[*it] && cur.second > 0) {
+				Q.push(make_pair(*it, cur.second-1));
+				visited[*it] = true;
 			}
+		}
 	}
+
+	return visited_n;
 }
 
-int main()
-{
-	int NC, tt = 1;
-	while (1)
-	{
-		map<int, int> imap;
+int main() {
+	int M, id, test_i;
+	unordered_map<int, int> ids;
 
-		scanf("%d", &NC);
-		if (!NC)
+	for (test_i = 1; ; ) {
+		/* prepare stage */
+		id = 0;
+		ids.clear();
+		for (int i = 0; i < N_MAX; ++i)
+			G[i].clear();
+
+
+		/* input stage */
+		cin >> M;
+		if (!M)
 			break;
 
+		while (M--) {
+			int n1, n2;
+			cin >> n1 >> n2;
+			if (ids.find(n1) == ids.end()) ids[n1] = id++;
+			if (ids.find(n2) == ids.end()) ids[n2] = id++;
 
-		g.resize(0);
-		imap.clear();
-
-
-		while (NC--)
-		{
-			int a, b;
-
-			scanf("%d%d", &a, &b);
-
-			if (imap.find(a) != imap.end())
-			{
-				if (imap.find(b) != imap.end())
-				{
-				}
-				else
-				{
-					imap[ b ] = g.size();
-					g.resize(g.size()+1);
-				}
-			}
-			else
-			{
-				if (imap.find(b) != imap.end())
-				{
-					imap[ a ] = g.size();
-					g.resize(g.size()+1);
-				}
-				else
-				{
-					imap[ b ] = g.size();
-					g.resize(g.size()+1);
-
-					imap[ a ] = g.size();
-					g.resize(g.size()+1);
-				}
-			}
-
-			g[ imap[a] ].push_back( imap[b] );
-			g[ imap[b] ].push_back( imap[a] );
+			G[ids[n1]].push_back(ids[n2]);
+			G[ids[n2]].push_back(ids[n1]);
 		}
 
-		while (1)
-		{
+		while (1) {
 			int n, ttl;
-
-			scanf("%d%d", &n, &ttl);
+			cin >> n >> ttl;
 			if (!n && !ttl)
 				break;
 
-			n = imap[ n ];
-
-			bfs(n, ttl);
-
-			printf("Case %d: %d nodes not reachable from node %d with TTL = %d.\n",
-					tt++, int(g.size() - was.count()), n, ttl);
+			cout	<< "Case " << test_i++ << ": "
+					<< ids.size()-bfs(ids[n], ttl) << " nodes not reachable from node "
+					<< n << " with TTL = " << ttl << ".\n";
 		}
 	}
 

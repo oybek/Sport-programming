@@ -1,4 +1,3 @@
-
 #include <set>
 #include <map>
 #include <list>
@@ -22,36 +21,24 @@
 typedef unsigned long long uint64;
 typedef long long int64;
 
-typedef unsigned int uint32;
-
 using namespace std;
 
-#define N_MAX 16
-
-int N, soln;
-bitset<N_MAX> attacked[N_MAX][N_MAX];
-
-void place_queen(int x, int y) {
-	attacked[x][x].set();
-	for (int i = 0; i < N; ++i) {
-		attacked[x][i].set(y);
-		attacked[x][i].set(i);
-		attacked[x][i].set(N-1-i);
-	}
-}
-
-void backtrack(int x) {
-	if (x == N) {
-		++soln;
-		return;
-	}
-
-	for (int y = 0; y < N; ++y) {
-		if (!attacked[x][x][y])
-	}
-}
+#define N_MAX 5001
+int N, a[N_MAX];
 
 int main() {
+	while (scanf("%d", &N) != EOF) {
+		for (int i = 0; i < N; ++i)
+			scanf("%d", a+i);
+		sort(a, a+N);
+
+		int count = 0;
+		for (int i = 0; i < N; ++i)
+			for (int j = i+1; j < N; ++j)
+				count += upper_bound(a, a+N, a[i]+a[j]) - lower_bound(a, a+N, a[i]+a[j]);
+
+		cout << count << endl;
+	}
 
 	return 0;
 }
