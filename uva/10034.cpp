@@ -23,8 +23,7 @@ using namespace std;
 
 #define points_size_MAX 101
 
-struct point
-{
+struct point {
 	double x, y;
 };
 

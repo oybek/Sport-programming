@@ -12,8 +12,7 @@
 #include <iostream>
 #include <algorithm>
 
-int main()
-{
+int main() {
 	using namespace std;
 
 	int n;

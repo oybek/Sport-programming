@@ -1,94 +1,69 @@
 
+#include <set>
+#include <map>
+#include <list>
+#include <stack>
+#include <queue>
 #include <cmath>
-#include <cctype>
+#include <bitset>
+#include <cstdio>
+#include <string>
 #include <vector>
 #include <cassert>
+#include <cstring>
+#include <climits>
+#include <iomanip>
 #include <iostream>
 #include <algorithm>
 
+#define INF INT_MAX-1
+#define SQR(x) ((x)*(x))
+
+typedef unsigned long long uint64;
+typedef long long int64;
+
 using namespace std;
 
-struct node {
-	int n;
-	node * left,
-		 * right;
-	
-	node() 
-		: n(0)
-		, left(NULL)
-		, right(NULL)
-	{}
-};
+int get_number() {
+	int n = 0, c;
+	while (1) {
+		if ((c = getchar()) == EOF)
+			return -1;
+		else
+		if (!isdigit(c))
+			break;
 
-class ttree {
-	private:
-		node * root;
+		n *= 10;
+		n += c-'0';
+	}
+	return n;
+}
 
-	public:
-		ttree() {
-			root = new node;
+bool check_tree(int goal) {
+	stack<int> st;
+	while (1) {
+		c = getchar();
+		if (c == ')') {
+			st.pop();
+			if (st.size() == 0)
+				break;
+		} else
+		if (c == '(') {
+			st.push(0);
+		} else
+		if (isdigit(c)) {
+			st.top() *= 10;
+			st.top() += c-'0';
 		}
+	}
+}
 
-		inline void build() { root = dfs_build(root); }
-		inline void show() { dfs_show(root, 0); }
-
-		void dfs_show(node * cur, int deep)
-		{
-			for (int i = 0; i < deep; ++i)
-				cout << "  ";
-			cout << cur->n << endl;
-
-			if (cur->left)
-				dfs_show(cur->left, deep+1);
-			if (cur->right)
-				dfs_show(cur->right, deep+1);
-		}
-
-		node * dfs_build(node * cur)
-		{
-			char c;
-			while ( (c = cin.get()) != ')' )
-			{
-				switch (c) {
-					case '0': case '1': case '2': case '3': case '4':
-					case '5': case '6': case '7': case '8': case '9':
-						cin.putback(c);
-						cur = new node;
-						cin >> cur->n;
-					break;
-
-					case '(':
-						if ( cur->left == NULL )
-							cur->left = dfs_build(cur->left);
-						else
-							cur->right = dfs_build(cur->right);
-					break;
-
-					default:
-					break;
-				}
-			}
-			return cur;
-		}
-};
-
-int main()
-{
-	int n;
-	char c;
-	ttree tree;
-
-	while ( cin >> n )
-	{
-		while ( (c = cin.get()) != '(' );
-
-		//tree.clear();
-
-		tree.build();
-		tree.show();
+int main() {
+	int sum, c, t, goal;
+	while (1) {
+		int goal = get_number();
 	}
 
 	return 0;
 }
-
 

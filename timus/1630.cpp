@@ -19,24 +19,17 @@
 #define INF INT_MAX-1
 #define SQR(x) ((x)*(x))
 
+typedef unsigned long long uint64;
+typedef long long int64;
+
 using namespace std;
 
-string s;
+#define N_MAX 101
+#define M_MAX 10001
+
+int N, M;
 
 int main() {
-	cin >> s;
-	for (string::iterator it = s.begin(); it != s.end(); ++it)
-		*it -= 'a';
-	for (string::iterator it = s.begin(); it != s.end(); ++it)
-		if (*it < 5) {
-			*it += 26;
-			*it -= 5;
-		} else {
-			*it -= 5;
-		}
-	for (int i = 0; i < int(s.size()); ++i) {
-	}
-	cout << s << endl;
 
 	return 0;
 }
