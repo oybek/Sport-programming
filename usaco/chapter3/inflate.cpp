@@ -17,25 +17,11 @@ LANG: C++
 #include <algorithm>
 using namespace std;
 
-int weight_lim, n;
+#define M_MAX 10001
+#define N_MAX 10001
 
-struct fraction
-{
-	int n, d;
-
-	bool operator < (const fraction & a) const
-	{
-		return n * a.d < a.n * d;
-	}
-};
-
-vector<fraction> a;
-
-void show_a()
-{
-	for (int i = 0; i < int(a.size()); ++i)
-		cout << a[i].n << ' ' << a[i].d << endl;
-}
+int M, N, dp[M_MAX];
+pair<int, int> a[N_MAX];
 
 int main()
 {
@@ -44,24 +30,21 @@ int main()
 	freopen(PROB_NAME".out", "wt", stdout);
 #endif
 
-	cin >> weight_lim >> n;
-	a.resize(n);
-	for (int i = 0; i < n; ++i)
-		cin >> a[i].n >> a[i].d;
-
-	sort(a.rbegin(), a.rend());
-
-	int ans = 0;
-	for (int i = 0; i < n; ++i)
-	{
-		int times = weight_lim / a[i].d;
-		if (times == 0)
-			continue;
-
-		weight_lim -= times * a[i].d;
-		ans += times * a[i].n;
+	cin >> M >> N;
+	for (int i = 0; i < N; ++i) {
+		cin >> a[i].first >> a[i].second;
 	}
 
+	dp[0] = 0;
+	for (int i = 0; i < N; ++i) {
+		for (int j = a[i].second; j <= M; ++j) {
+			dp[j] = max(dp[j-a[i].second] + a[i].first, dp[j]);
+		}
+	}
+
+	int ans = 0;
+	for (int i = 0; i <= M; ++i)
+		ans = max(dp[i], ans);
 	cout << ans << endl;
 
 	return 0;
