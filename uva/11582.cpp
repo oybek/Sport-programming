@@ -63,7 +63,6 @@ int main() {
 		cout << fib[pow_mod(a%len, b, len)] << endl;
 	}
 
-
 	return 0;
 }
 

@@ -1,33 +1,35 @@
 
 #include <set>
 #include <map>
+#include <list>
+#include <stack>
 #include <queue>
 #include <cmath>
 #include <bitset>
 #include <cstdio>
 #include <string>
 #include <vector>
+#include <cassert>
 #include <cstring>
 #include <climits>
+#include <iomanip>
 #include <iostream>
 #include <algorithm>
 
+#define INF INT_MAX-1
+#define SQR(x) ((x)*(x))
+
+typedef unsigned long long uint64;
+typedef long long int64;
+
 using namespace std;
 
-#define DEG_PER_HOUR	30
-#define DEG_PER_MIN		6
-
 int main() {
-	int h, m;
+	int k, i, next;
 	while (1) {
-		scanf("%d:%d", &h, &m);
-
-		if (!h && !m)
+		cin >> k;
+		if (!k)
 			break;
-
-		h %= 12;
-		float t = abs(h*DEG_PER_HOUR + m/2.0 - m*DEG_PER_MIN);
-		printf("%.3f\n", min(t, 360.0f-t));
 	}
 
 	return 0;
