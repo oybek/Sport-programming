@@ -30,40 +30,32 @@ int main() {
 		first = true;
 		b1.resize(0);
 		b2.resize(0);
-
 		cin >> sz;
 		if ( sz == 1 ) {
 			cin >> x;
 			cout << x << endl;
 			continue;
 		}
-
 		for ( i = 0; i < sz; ++i ) {
 			cin >> x;
 			insert(b1, x);
 		}
-
 		while ( ! b1.empty() ) {
 			if ( first ) first = false;
 			else {
 				a = b2.back();
 				b2.pop_back();
-
 				insert(b1, a);
 				t += a;
 			}
-
 			a = b1.back();
 			b1.pop_back();
 			b = b1.back();
 			b1.pop_back();
-
 			insert(b2, a);
 			insert(b2, b);
-
 			t += max(a, b);
 		}
-
 		cout << t << endl;
 	}
 

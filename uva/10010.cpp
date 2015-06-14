@@ -1,105 +1,99 @@
 
-#include <cctype>
+#include <set>
+#include <map>
+#include <list>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <bitset>
+#include <cstdio>
 #include <string>
 #include <vector>
+#include <cassert>
+#include <cstring>
+#include <climits>
+#include <iomanip>
 #include <iostream>
+#include <algorithm>
+
+#define INF INT_MAX-1
+#define SQR(x) ((x)*(x))
+
+typedef unsigned long long uint64;
+typedef long long int64;
 
 using namespace std;
 
-class solution_t {
-	public:
-		solution_t() { cin >> test_num; }
+#define line_n_MAX 51
 
-		void run() {
-			while (test_num--)
-				block();
-		}
+#define GOOD_COORD(x, y)\
+	((x >= 0) && (y >= 0) && (x < line_n) && (y < int(grid[0].size())))
 
-		void block() {
-			cin >> gridx >> gridy;
+int line_n;
+string grid[line_n_MAX];
 
-			grid.resize(gridx);
-			for (auto & e: grid) { cin >> e; }
+bool check(const string s, int x, int y, int k1, int k2) {
+	for (int i = 0; i < int(s.size()); ++i)
+		if (!GOOD_COORD(x + k1*i, y + k2*i) || grid[x + k1*i][y + k2*i] != s[i])
+			return false;
+	return true;
+}
 
-			for (int i = 0; i < gridx; ++i) {
-				for (int j = 0; j < gridy; ++j) {
-					grid[i][j] = tolower(grid[i][j]);
+bool is_there(const string s, int x, int y) {
+	return
+		check(s, x, y, -1, -1)|
+		check(s, x, y, -1,  0)|
+		check(s, x, y, -1, +1)|
+		check(s, x, y,  0, -1)|
+		check(s, x, y,  0, +1)|
+		check(s, x, y, +1, -1)|
+		check(s, x, y, +1,  0)|
+		check(s, x, y, +1, +1);
+}
 
-					chmap[ grid[i][j]-'a' ].push_back(make_pair(i, j));
-			} }
+pair<int, int> get_pos(const string s) {
+	for (int i = 0; i < line_n; ++i)
+		for (int j = 0; j < int(grid[0].size()); ++j)
+			if (is_there(s, i, j))
+				return make_pair(i+1, j+1);
 
-			cin >> wordn;
-			while (wordn--) {
-				cin >> word;
+	/* solution always exists */
+	assert(false);
+}
 
-				int first_ch = tolower(word[0])-'a';
-
-				for (auto e: chmap[ first_ch ]) {
-					if (isnative(word, e)) {
-						cout << (e.first)+1 << ' ' << (e.second)+1 << endl;
-						break;
-					}
-				}
-			}
-		}
-
-		bool isnative(const string & s, const pair<int, int> & e) {
-			int n = 8, i = 0, j = 0, x, y;
-			for (auto c: s) {
-				c = tolower(c);
-
-				x = (e.first)-i, y = e.second;
-				if ((x < 0) || (x >= gridx) || (y < 0) || (y >= gridy)) --n;
-				else if (grid[x][y] != c) --n;
-
-				x = (e.first)-i, y = (e.second)+j;
-				if ((x < 0) || (x >= gridx) || (y < 0) || (y >= gridy)) --n;
-				else if (grid[x][y] != c) --n;
-
-				x = e.first, y = (e.second)+j;
-				if ((x < 0) || (x >= gridx) || (y < 0) || (y >= gridy)) --n;
-				else if (grid[x][y] != c) --n;
-
-				x = (e.first)+i, y = (e.second)+j;
-				if ((x < 0) || (x >= gridx) || (y < 0) || (y >= gridy)) --n;
-				else if (grid[x][y] != c) --n;
-
-				x = (e.first)+i, y = e.second;
-				if ((x < 0) || (x >= gridx) || (y < 0) || (y >= gridy)) --n;
-				else if (grid[x][y] != c) --n;
-
-				x = (e.first)+i, y = (e.second)-j;
-				if ((x < 0) || (x >= gridx) || (y < 0) || (y >= gridy)) --n;
-				else if (grid[x][y] != c) --n;
-
-				x = (e.first)-i, y = e.second;
-				if ((x < 0) || (x >= gridx) || (y < 0) || (y >= gridy)) --n;
-				else if (grid[x][y] != c) --n;
-
-				x = (e.first)-i, y = (e.second)-j;
-				if ((x < 0) || (x >= gridx) || (y < 0) || (y >= gridy)) --n;
-				else if (grid[x][y] != c) --n;
-
-				++i, ++j;
-			}
-			return n;
-		}
-
-	private:
-		int test_num;
-		int gridx, gridy, wordn;
-
-		vector<string> grid;
-		string word;
-
-		/* Used to store key coords */
-		vector<pair<int, int> > chmap[26];
-};
+void tolower_str(string & s) {
+	for (string::iterator it = s.begin(); it != s.end(); ++it)
+		*it = tolower(*it);
+}
 
 int main() {
-	using namespace std;
-	solution_t solution;
-	solution.run();
+	int test_n;
+	bool first = true;
+	cin >> test_n;
+
+	while (test_n--) {
+		int tmp;
+		cin >> line_n >> tmp;
+		for (int i = 0; i < line_n; ++i) {
+			cin >> grid[i];
+			tolower_str(grid[i]);
+		}
+
+		int query_n;
+		cin >> query_n;
+
+		if (first) first = false;
+		else cout << endl;
+
+		while (query_n--) {
+			string s;
+			cin >> s;
+			tolower_str(s);
+			pair<int, int> pos = get_pos(s);
+
+			cout << pos.first << ' ' << pos.second << endl;
+		}
+	}
 
 	return 0;
 }

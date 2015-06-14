@@ -19,6 +19,7 @@ int main()
 			++n;
 		cout << n << endl;
 	}
+
 	return 0;
 }
 
