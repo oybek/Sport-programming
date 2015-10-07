@@ -15,30 +15,28 @@
 #include <iomanip>
 #include <iostream>
 #include <algorithm>
-#include <unordered_map>
 
 #define INF 1000000001
 #define SQR(x) ((x)*(x))
+
+#define n_MAX 30001
+#define m_MAX 501
 
 typedef unsigned long long uint64;
 typedef long long int64;
 
 using namespace std;
 
-#define C_MAX 5001
-
 class ufds_t {
 	private:
-		int parent[C_MAX],
-			size[C_MAX],
-			size_max;
+		int parent[n_MAX],
+			set_size[n_MAX];
 
 	public:
-		void init(int n = C_MAX-1) {
-			size_max = 1;
+		void init(int n = n_MAX-1) {
 			for (int i = 0; i <= n; ++i) {
 				parent[i] = i;
-				size[i] = 1;
+				set_size[i] = 1;
 			}
 		}
 
@@ -49,44 +47,42 @@ class ufds_t {
 		void join(int x, int y) {
 			x = find(x);
 			y = find(y);
-
 			if (x == y) {
 				return;
 			} else {
 				parent[x] = parent[y];
-				size[x] += size[y];
-				size[y] = size[x];
-				size_max = max(size[x], size_max);
+				set_size[x] += set_size[y];
+				set_size[y] = set_size[x];
 			}
 		}
 
-		int get_size_max() {
-			return size_max;
+		int size(int n) {
+			return set_size[find(n)];
 		}
 };
 
-int C, R;
-string s, s1, s2;
 ufds_t ufds;
-unordered_map<string, int> names;
+int n, m;
 
 int main() {
-	while (1) {
-		names.clear();
-		cin >> C >> R;
-		if (!C && !R)
+	for (;;) {
+		cin >> n >> m;
+		if (!n && !m)
 			break;
-		for (int i = 0; i < C; ++i) {
-			cin >> s;
-			names[s] = i;
+
+		ufds.init(n);
+
+		while (m--) {
+			int first, a;
+			cin >> a >> first;
+			while (--a) {
+				int b;
+				cin >> b;
+				ufds.join(first, b);
+			}
 		}
 
-		ufds.init(C);
-		for (int i = 0; i < R; ++i) {
-			cin >> s1 >> s2;
-			ufds.join(names[s1], names[s2]);
-		}
-		cout << ufds.get_size_max() << endl;
+		cout << ufds.size(0) << endl;
 	}
 
 	return 0;

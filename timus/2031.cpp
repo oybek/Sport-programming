@@ -24,32 +24,25 @@ typedef long long int64;
 
 using namespace std;
 
-#define n_MAX 70001
-
-int n;
-int64 a[n_MAX], s[n_MAX];
-map<int, vector<int> > inds;
-
 int main() {
+	int n;
 	cin >> n;
-	for (int i = 1; i <= n; ++i) {
-		cin >> a[i];
-		inds[a[i]].push_back(i);
-	}
-
-	int q;
-	cin >> q;
-	while (q--) {
-		int l, r, x;
-		cin >> l >> r >> x;
-
-		if (inds.find(x) != inds.end()
-			&& lower_bound(inds[x].begin(), inds[x].end(), l) != inds[x].end()
-			&& *lower_bound(inds[x].begin(), inds[x].end(), l) <= r) {
-			cout << 1;
-		} else {
-			cout << 0;
-		}
+	switch (n) {
+		case 1:
+			puts("88");
+			break;
+		case 2:
+			puts("68 88");
+			break;
+		case 3:
+			puts("06 68 88");
+			break;
+		case 4:
+			puts("16 06 68 88");
+			break;
+		default:
+			puts("Glupenky Pierre");
+			break;
 	}
 
 	return 0;

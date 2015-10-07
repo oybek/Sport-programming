@@ -12,12 +12,12 @@ vector<int> primes, ans;
 
 void gen_sieve() {
 	prime.set();
-	prime[0] = false;
-	prime[1] = true;
+	prime[0] = prime[1] = false;
 	for (int i = 2; i*i < N_MAX; ++i)
 		if (prime[i])
 			for (int j = i*i; j < N_MAX; j += i)
 				prime[j] = false;
+	prime[1] = true;
 }
 
 int main() {
@@ -31,16 +31,27 @@ int main() {
 		cout << N << ' ' << C << ':';
 
 		/* number of primes */
-		int n = lower_bound(primes.begin(), primes.end(), N) - primes.begin() + 1;
+		int n = primes.size()-1;
+		while (primes[n] > N)
+			--n;
 
 		ans.resize(0);
 		if (n%2) {
-			for (int i = max(0, n/2-C+1); i < min(n/2+C-1, n); ++i)
-				cout << ' ' << primes[i];
+			ans.push_back(primes[n/2+1]);
+			for (int t = 0; t < C-1; ++t)
+				ans.push_back(primes[n/2-t]);
+			for (int t = 0; t < C-1; ++t)
+				ans.push_back(primes[n/2+2+t]);
 		} else {
-			for (int i = max(0, n/2-C-1); i < min(n/2+C, n); ++i)
-				cout << ' ' << primes[i];
+			for (int t = 0; t < C; ++t)
+				ans.push_back(primes[n/2-t]);
+			for (int t = 0; t < C; ++t)
+				ans.push_back(primes[n/2+1+t]);
 		}
+
+		sort(ans.begin(), ans.end());
+		for (int i = 0; i < ans.size(); ++i)
+			cout << ' ' << ans[i];
 		cout << "\n\n";
 	}
 

@@ -24,33 +24,33 @@ typedef long long int64;
 
 using namespace std;
 
-#define n_MAX 70001
+uint64 mod_pow(uint64 num, uint64 pow, uint64 mod) {
+	uint64 res;
+	uint64 n = num;
+	for(res = 1; pow; pow >>= 1) {
+		if (pow & 1)
+			res = ((res % mod) * (n % mod)) % mod;
+		n = ((n % mod) * (n % mod)) % mod;
+	}
 
-int n;
-int64 a[n_MAX], s[n_MAX];
-map<int, vector<int> > inds;
+	return res;
+}
 
 int main() {
+	int e = 9;
+	int n;
+	int num = 1000000000;
+
 	cin >> n;
-	for (int i = 1; i <= n; ++i) {
-		cin >> a[i];
-		inds[a[i]].push_back(i);
+	while ((
+		mod_pow(1, n, num) +
+		mod_pow(2, n, num) + 
+		mod_pow(3, n, num) +
+		mod_pow(4, n, num))%num != 0) {
+		num /= 10;
+		--e;
 	}
-
-	int q;
-	cin >> q;
-	while (q--) {
-		int l, r, x;
-		cin >> l >> r >> x;
-
-		if (inds.find(x) != inds.end()
-			&& lower_bound(inds[x].begin(), inds[x].end(), l) != inds[x].end()
-			&& *lower_bound(inds[x].begin(), inds[x].end(), l) <= r) {
-			cout << 1;
-		} else {
-			cout << 0;
-		}
-	}
+	cout << e << endl;
 
 	return 0;
 }

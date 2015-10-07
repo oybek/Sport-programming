@@ -16,7 +16,7 @@
 #include <iostream>
 #include <algorithm>
 
-#define INF 1000000001
+#define INF INT_MAX-1
 #define SQR(x) ((x)*(x))
 
 typedef unsigned long long uint64;
@@ -24,35 +24,24 @@ typedef long long int64;
 
 using namespace std;
 
-#define k_MAX 101
-int k, n;
-long double C[k_MAX];
-
-long double fact(long double n) {
-	return (n == 0 ? 1 : fact(n-1)*n);
+int div_n(int n) {
+	int count = 0;
+	for (int i = 1; i*i <= n; ++i)
+		if (n%i == 0)
+			++count;
+	return count;
 }
 
-/*
-ooo#
-oo#o
-o#oo
-#ooo
- */
-
 int main() {
-	cout << fixed << setprecision(0);
-	while (cin >> n >> k) {
-		long double n_fact = fact(n);
-		for (int i = 1; i <= n; ++i) {
-			C[i] = n_fact / fact(n-i) / fact(i);
+	int M, N, K;
+	cin >> M >> N >> K;
+	for (int L = 1; L <= 10000; ++L) {
+		if (div_n(L) == N && div_n(L-K) == M) {
+			cout << L << endl;
+			return 0;
 		}
-		long double count = 0;
-		for (; k <= n; ++k) {
-			count += C[k];
-		}
-		cout << count << endl;
 	}
-
+	cout << 0 << endl;
 	return 0;
 }
 

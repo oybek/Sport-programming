@@ -24,33 +24,24 @@ typedef long long int64;
 
 using namespace std;
 
-#define k_MAX 101
-int k, n;
-long double C[k_MAX];
-
-long double fact(long double n) {
-	return (n == 0 ? 1 : fact(n-1)*n);
+uint64 solve(uint64 n) {
+	if (n <= 3)
+		return 0;
+	else {
+		n -= 2;
+		return (4*n*n*n + 6*n*n - 4*n - 3 + 3*(n%2 ? -1 : 1)) / 48;
+	}
 }
 
-/*
-ooo#
-oo#o
-o#oo
-#ooo
- */
+int n;
+#define SIZE 1000001
 
 int main() {
-	cout << fixed << setprecision(0);
-	while (cin >> n >> k) {
-		long double n_fact = fact(n);
-		for (int i = 1; i <= n; ++i) {
-			C[i] = n_fact / fact(n-i) / fact(i);
-		}
-		long double count = 0;
-		for (; k <= n; ++k) {
-			count += C[k];
-		}
-		cout << count << endl;
+	while (1) {
+		cin >> n;
+		if (n < 3)
+			break;
+		cout << solve(n) << endl;
 	}
 
 	return 0;

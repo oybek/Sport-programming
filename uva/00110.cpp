@@ -70,7 +70,7 @@ int main() {
 			found = false;
 			do {
 				if ( !two_equal(v, works) ) {
-					found = true; 
+					found = true;
 					break;
 				}
 			} while ( next_permutation(works.begin(), works.end()) );
