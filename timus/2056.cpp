@@ -19,28 +19,34 @@
 #define INF INT_MAX-1
 #define SQR(x) ((x)*(x))
 
+typedef unsigned long long uint64;
+typedef long long int64;
+
 using namespace std;
 
-string s;
-int a[101];
+int c[6];
 
 int main() {
-	cin >> s;
-	for (int i = 0; i < s.size(); ++i)
-		a[i] = s[i]-'a';
+	int n, S = 0;
+	cin >> n;
+	for (int i = 0; i < n; ++i) {
+		int t;
+		cin >> t;
+		S += t;
+		++c[t];
+	}
 
-	if (a[0] < 5) a[0] += 26;
-	for (int i = 0; i+1 < s.size(); ++i)
-		while (a[i] > a[i+1])
-			a[i+1] += 26;
-
-	for (int i = s.size()-1; i > 0; --i)
-		a[i] -= a[i-1];
-	a[0] -= 5;
-
-	for (int i = 0; i < s.size(); ++i)
-		cout << char(a[i]%26+'a');
-	cout << endl;
+	if (c[3] > 0) {
+		cout << "None\n";
+	} else
+	if (c[5] == n) {
+		cout << "Named\n";
+	} else
+	if (10*S >= 45*n) {
+		cout << "High\n";
+	} else {
+		cout << "Common\n";
+	}
 
 	return 0;
 }
