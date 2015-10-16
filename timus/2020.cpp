@@ -24,30 +24,37 @@ typedef long long int64;
 
 using namespace std;
 
-#define dp_SIZE 30001
-#define a_SIZE 11
-
-uint64 dp[dp_SIZE];
-int a[] = { 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000 };
-
 int main() {
-	dp[0] = 1;
-	for (int j = 0; j < a_SIZE; ++j) {
-		for (int i = a[j]; i < dp_SIZE; i += 5) {
-			dp[i] += dp[i-a[j]];
+	string s1, s2;
+
+	cin >> s1
+		>> s2;
+
+	int i = 0, j = 0, count = 0;
+	while (i < s1.size() && j < s2.size()) {
+		if (s1[i] == 'L') {
+			if (s2[j] != 'L') {
+				++j;
+				++count;
+			} else {
+				++i, ++j;
+				++count;
+			}
+		} else {
+			if (s2[j] == 'L') {
+				++i;
+				++count;
+			} else {
+				++i, ++j;
+				++count;
+			}
 		}
 	}
 
-	float n;
-	while (1) {
-		cin >> n;
-		if (n == 0.0) break;
-		cout
-			<< fixed << setprecision(2)
-			<< setw(6) << n
-			<< setw(17) << dp[int(roundf(n*100))]
-			<< endl;
-	}
+	count += s1.size()-i;
+	count += s2.size()-j;
+
+	cout << count << endl;
 
 	return 0;
 }

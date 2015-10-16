@@ -1,54 +1,67 @@
 
+#include <set>
+#include <map>
+#include <list>
+#include <stack>
+#include <queue>
 #include <cmath>
+#include <bitset>
 #include <cstdio>
-#include <cctype>
 #include <string>
 #include <vector>
-#include <cstdlib>
+#include <cassert>
+#include <cstring>
+#include <climits>
+#include <iomanip>
 #include <iostream>
 #include <algorithm>
 
-#define repeat(a) for (int i_ = 0; i_ < (a); ++i_)
-#define whole(a) a.begin(), a.end()
+#define INF INT_MAX-1
+#define SQR(x) ((x)*(x))
+
+typedef unsigned long long uint64;
+typedef long long int64;
 
 using namespace std;
 
-class solution_t {
-	public:
-		solution_t() {}
-		~solution_t() {}
+#define N_MAX 25001
+int N, M, a[N_MAX];
+map<int, int> range;
 
-		void run() {
-			cin >> m;
+int main() {
+	cin >> M;
+	while (1) {
+		int t;
+		cin >> t;
+		if (t == -1)
+			break;
+		a[N++] = t;
+	}
 
-			int max_e = 0;
+	for (int i = 0; i < M; ++i) {
+		if (range.find(a[i]) != range.end()) {
+			++range[a[i]];
+		} else {
+			range[a[i]] = 1;
+		}
+	}
 
-			for (i = 0; i < m; ++i) {
-				cin >> t;
-				if (t > max_e)
-					max_e = t;
-			}
+	cout << range.rbegin()->first << endl;
 
-			cout << max_e << endl;
+	for (int i = M; i < N; ++i) {
+		if (range[a[i-M]] == 1)
+			range.erase(a[i-M]);
+		else
+			--range[a[i-M]];
 
-			for (; 1; ++i) {
-				cin >> t;
-
-				if (t == -1)
-					break;
-
-				cout << max(max_e, t) << endl;
-			}
+		if (range.find(a[i]) != range.end()) {
+			++range[a[i]];
+		} else {
+			range[a[i]] = 1;
 		}
 
-	private:
-		int a[25001], m, i, t;
-};
-
-int main(int argc, char ** argv) {
-	solution_t solution;
-	solution.run();
-
+		cout << range.rbegin()->first << endl;
+	}
 
 	return 0;
 }
