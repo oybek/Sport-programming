@@ -16,7 +16,7 @@
 #include <iostream>
 #include <algorithm>
 
-#define INF 1000000009
+#define INF 1000000001
 #define SQR(x) ((x)*(x))
 
 typedef unsigned long long uint64;
@@ -25,6 +25,10 @@ typedef long long int64;
 using namespace std;
 
 int main() {
+	int c;
+	putchar(toupper(getchar()));
+	while ((c = getchar()) != EOF)
+		putchar(c);
 
 	return 0;
 }
