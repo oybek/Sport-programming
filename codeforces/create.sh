@@ -11,6 +11,6 @@ case $1 in
 		else
 			cat 00000.cpp > $1
 		fi
-		gvim -p $1 file.in file.out
+		gvim -p $1
 esac
 

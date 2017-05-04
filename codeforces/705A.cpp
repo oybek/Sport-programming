@@ -34,6 +34,16 @@ using namespace std;
 
 int main()
 {
+	int n;
+	cin >> n;
+	bool hate = true;
+	while( n-- )
+	{
+		cout << ( hate ? "I hate" : "I love" );
+		cout << ( n == 0 ? " it\n" : " that " );
+
+		hate = !hate;
+	}
 
 	return 0;
 }

@@ -34,6 +34,23 @@ using namespace std;
 
 int main()
 {
+	//
+	int n;
+	vector< string > s;
+
+	//
+	cin >> n;
+	s.resize( n );
+	for( int i = 0; i < n; ++i )
+	{
+		cin >> s[ i ];
+	}
+
+	//
+	for( int i = 0; i < n; ++i )
+	{
+		string best = s[ 0 ];
+	}
 
 	return 0;
 }

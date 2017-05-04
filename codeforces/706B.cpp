@@ -32,9 +32,36 @@ typedef long long i64;
 
 using namespace std;
 
+int n;
+vector<int> x;
+int q;
+
 int main()
 {
+	//
+	x.reserve( 100001 );
 
+	//
+	cin >> n;
+	x.resize( n );
+	for( int i = 0; i < n; ++i )
+	{
+		cin >> x[ i ];
+	}
+
+	//
+	sort( x.begin(), x.end() );
+
+	//
+	cin >> q;
+	for( ; q--; )
+	{
+		int m;
+		cin >> m;
+		cout << upper_bound( x.begin(), x.end(), m ) - x.begin() << endl;
+	}
+
+	//
 	return 0;
 }
 

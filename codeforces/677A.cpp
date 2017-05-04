@@ -34,6 +34,24 @@ using namespace std;
 
 int main()
 {
+	//
+	int n, h;
+	cin >> n >> h;
+
+	//
+	int ans = n;
+	while( n-- )
+	{
+		int t;
+		cin >> t;
+
+		//
+		if( t > h )
+			++ans;
+	}
+
+	//
+	cout << ans << endl;
 
 	return 0;
 }

@@ -34,6 +34,15 @@ using namespace std;
 
 int main()
 {
+	int n, k;
+	cin >> n >> k;
+
+	int i = 1;
+	for( ; 240 - k - 5*i*(i+1)/2 >= 0; ++i )
+	{
+	}
+
+	cout << min( i-1, n ) << endl;
 
 	return 0;
 }
