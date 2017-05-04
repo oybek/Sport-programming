@@ -35,36 +35,44 @@ using namespace std;
 
 int main()
 {
-	int n, m;
+	int n;
+	bool yes = false;
+
+	vector<string> ans;
 
 	cin >> n;
-	vector<int> a( n );
-	for( int& x : a )
-		cin >> x;
-
-	cin >> m;
-	vector<int> b( m );
-	for( int& x : b )
-		cin >> x;
-
-	sort( all(a) );
-	sort( all(b) );
-
-	int ans = 0;
-	for( int i = 0; i < a.size(); ++i )
+	while( n-- )
 	{
-		for( int j = 0; j < b.size(); ++j )
+		string s;
+		cin >> s;
+
+		if( !yes )
 		{
-			if( abs( a[ i ] - b[ j ] ) <= 1 )
+			if( s[ 0 ] == 'O' && s[ 1 ] == 'O' )
 			{
-				b[ j ] = inf;
-				++ans;
-				break;
+				s[ 0 ] = s[ 1 ] = '+';
+				yes = true;
 			}
 		}
+
+		if( !yes )
+		{
+			if( s[ 3 ] == 'O' && s[ 4 ] == 'O' )
+			{
+				s[ 3 ] = s[ 4 ] = '+';
+				yes = true;
+			}
+		}
+
+		ans.push_back( s );
 	}
 
-	cout << ans;
+	cout << ( yes ? "YES" : "NO" ) << endl;
+	if( yes )
+	{
+		for( string s : ans )
+			cout << s << endl;
+	}
 
 	return 0;
 }

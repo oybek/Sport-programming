@@ -11,6 +11,7 @@ case $1 in
 		else
 			cat 00000.cpp > $1
 		fi
-		gvim -p $1
+		gvim -p $1 -c ":37"
+		g++ $1 -g -std=c++11
 esac
 

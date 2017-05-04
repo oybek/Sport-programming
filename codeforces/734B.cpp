@@ -35,36 +35,18 @@ using namespace std;
 
 int main()
 {
-	int n, m;
+	int k2, k3, k5, k6;
+	cin >> k2 >> k3 >> k5 >> k6;
 
-	cin >> n;
-	vector<int> a( n );
-	for( int& x : a )
-		cin >> x;
+	int c256 = min( k2, min( k5, k6 ) );
 
-	cin >> m;
-	vector<int> b( m );
-	for( int& x : b )
-		cin >> x;
+	k2 -= c256;
+	k5 -= c256;
+	k6 -= c256;
 
-	sort( all(a) );
-	sort( all(b) );
+	int c32 = min( k3, k2 );
 
-	int ans = 0;
-	for( int i = 0; i < a.size(); ++i )
-	{
-		for( int j = 0; j < b.size(); ++j )
-		{
-			if( abs( a[ i ] - b[ j ] ) <= 1 )
-			{
-				b[ j ] = inf;
-				++ans;
-				break;
-			}
-		}
-	}
-
-	cout << ans;
+	cout << 256*c256 + 32*c32 << endl;
 
 	return 0;
 }

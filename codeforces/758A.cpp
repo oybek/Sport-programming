@@ -35,35 +35,17 @@ using namespace std;
 
 int main()
 {
-	int n, m;
-
+	int n;
 	cin >> n;
+
 	vector<int> a( n );
 	for( int& x : a )
 		cin >> x;
 
-	cin >> m;
-	vector<int> b( m );
-	for( int& x : b )
-		cin >> x;
-
-	sort( all(a) );
-	sort( all(b) );
-
+	int big = *max_element( all(a) );
 	int ans = 0;
-	for( int i = 0; i < a.size(); ++i )
-	{
-		for( int j = 0; j < b.size(); ++j )
-		{
-			if( abs( a[ i ] - b[ j ] ) <= 1 )
-			{
-				b[ j ] = inf;
-				++ans;
-				break;
-			}
-		}
-	}
-
+	for( int x : a )
+		ans += big - x;
 	cout << ans;
 
 	return 0;

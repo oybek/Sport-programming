@@ -35,36 +35,16 @@ using namespace std;
 
 int main()
 {
-	int n, m;
-
-	cin >> n;
-	vector<int> a( n );
-	for( int& x : a )
-		cin >> x;
-
-	cin >> m;
-	vector<int> b( m );
-	for( int& x : b )
-		cin >> x;
-
-	sort( all(a) );
-	sort( all(b) );
-
-	int ans = 0;
-	for( int i = 0; i < a.size(); ++i )
+	int k, r;
+	cin >> k >> r;
+	for( int x = 1; ; ++x )
 	{
-		for( int j = 0; j < b.size(); ++j )
+		if( x*k%10 == r || x*k%10 == 0 )
 		{
-			if( abs( a[ i ] - b[ j ] ) <= 1 )
-			{
-				b[ j ] = inf;
-				++ans;
-				break;
-			}
+			cout << x << endl;
+			break;
 		}
 	}
-
-	cout << ans;
 
 	return 0;
 }

@@ -35,36 +35,19 @@ using namespace std;
 
 int main()
 {
-	int n, m;
+	string s;
+	cin >> s >> s;
 
-	cin >> n;
-	vector<int> a( n );
-	for( int& x : a )
-		cin >> x;
+	int a = count( all(s), 'A' );
+	int d = count( all(s), 'D' );
 
-	cin >> m;
-	vector<int> b( m );
-	for( int& x : b )
-		cin >> x;
-
-	sort( all(a) );
-	sort( all(b) );
-
-	int ans = 0;
-	for( int i = 0; i < a.size(); ++i )
-	{
-		for( int j = 0; j < b.size(); ++j )
-		{
-			if( abs( a[ i ] - b[ j ] ) <= 1 )
-			{
-				b[ j ] = inf;
-				++ans;
-				break;
-			}
-		}
-	}
-
-	cout << ans;
+	if( a > d )
+		cout << "Anton";
+	else
+	if( a < d )
+		cout << "Danik";
+	else
+		cout << "Friendship";
 
 	return 0;
 }

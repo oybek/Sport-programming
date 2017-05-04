@@ -35,36 +35,22 @@ using namespace std;
 
 int main()
 {
-	int n, m;
-
+	int n;
 	cin >> n;
-	vector<int> a( n );
-	for( int& x : a )
-		cin >> x;
 
-	cin >> m;
-	vector<int> b( m );
-	for( int& x : b )
-		cin >> x;
-
-	sort( all(a) );
-	sort( all(b) );
-
-	int ans = 0;
+	vector< pair<int, int> > a( n );
 	for( int i = 0; i < a.size(); ++i )
 	{
-		for( int j = 0; j < b.size(); ++j )
-		{
-			if( abs( a[ i ] - b[ j ] ) <= 1 )
-			{
-				b[ j ] = inf;
-				++ans;
-				break;
-			}
-		}
+		cin >> a[ i ].first;
+		a[ i ].second = i+1;
 	}
 
-	cout << ans;
+	sort( all(a) );
+
+	for( int i = 0; i < a.size()/2; ++i )
+	{
+		cout << a[ i ].second << ' ' << a[ a.size()-1-i ].second << endl;
+	}
 
 	return 0;
 }

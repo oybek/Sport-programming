@@ -24,9 +24,8 @@
 #include <string>
 #include <vector>
 
-#define inf 1000000001
-#define sqr(x) ((x)*(x))
-#define all(x) x.begin(), x.end()
+#define INF 1000000001
+#define SQR(x) ((x)*(x))
 
 typedef unsigned long long u64;
 typedef long long i64;
@@ -35,36 +34,10 @@ using namespace std;
 
 int main()
 {
-	int n, m;
-
-	cin >> n;
-	vector<int> a( n );
-	for( int& x : a )
-		cin >> x;
-
-	cin >> m;
-	vector<int> b( m );
-	for( int& x : b )
-		cin >> x;
-
-	sort( all(a) );
-	sort( all(b) );
-
-	int ans = 0;
-	for( int i = 0; i < a.size(); ++i )
-	{
-		for( int j = 0; j < b.size(); ++j )
-		{
-			if( abs( a[ i ] - b[ j ] ) <= 1 )
-			{
-				b[ j ] = inf;
-				++ans;
-				break;
-			}
-		}
-	}
-
-	cout << ans;
+	int x[ 3 ];
+	cin >> x[ 0 ] >> x[ 1 ] >> x[ 2 ];
+	sort( x, x+3 );
+	cout << ( x[ 1 ] - x[ 0 ] + x[ 2 ] - x[ 1 ] ) << endl;
 
 	return 0;
 }
