@@ -30,29 +30,31 @@
 
 typedef unsigned long long u64;
 typedef long long i64;
-typedef std::pair<int, int> pii;
 
 using namespace std;
 
+int a[ 'Z'+1 ];
+
 int main()
 {
+	a[ 'T' ] = 4;
+	a[ 'C' ] = 6;
+	a[ 'O' ] = 8;
+	a[ 'D' ] = 12;
+	a[ 'I' ] = 20;
+
 	int n;
+	int ans = 0;
 	cin >> n;
-
-	vector<pair<int, int> > a( n );
-	for( pair<int, int>& x : a )
-		cin >> x.first >> x.second;
-
-	sort( all(a) );
-
-	if( is_sorted( all(a), []( pii a, pii b ) { return a.second < b.second; } ) )
+	while( n-- )
 	{
-		cout << "Poor Alex";
+		string s;
+		cin >> s;
+
+		ans += a[ s[ 0 ] ];
 	}
-	else
-	{
-		cout << "Happy Alex";
-	}
+
+	cout << ans << endl;
 
 	return 0;
 }

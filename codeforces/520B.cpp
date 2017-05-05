@@ -6,8 +6,7 @@
 
 #include <algorithm>
 #include <bitset>
-#include <cassert>
-#include <climits>
+#include <cassert> #include <climits>
 #include <cmath>
 #include <cstdio>
 #include <cstring>
@@ -30,28 +29,45 @@
 
 typedef unsigned long long u64;
 typedef long long i64;
-typedef std::pair<int, int> pii;
 
 using namespace std;
 
+#define SIZE 30001
+int ans[ SIZE ];
+
 int main()
 {
-	int n;
-	cin >> n;
+	int n, m;
+	cin >> n >> m;
 
-	vector<pair<int, int> > a( n );
-	for( pair<int, int>& x : a )
-		cin >> x.first >> x.second;
+	fill( ans, ans+SIZE, -1 );
 
-	sort( all(a) );
+	ans[ n ] = 0;
 
-	if( is_sorted( all(a), []( pii a, pii b ) { return a.second < b.second; } ) )
+	queue<int> Q;
+	Q.push( n );
+
+	while( !Q.empty() )
 	{
-		cout << "Poor Alex";
-	}
-	else
-	{
-		cout << "Happy Alex";
+		int t = Q.front(); Q.pop();
+
+		if( t == m )
+		{
+			cout << ans[ t ] << endl;
+			return 0;
+		}
+
+		if( t-1 >= 0 && ans[ t-1 ] == -1 )
+		{
+			ans[ t-1 ] = ans[ t ] + 1;
+			Q.push( t-1 );
+		}
+
+		if( 2*t <= 2*m && ans[ 2*t ] == -1 )
+		{
+			ans[ 2*t ] = ans[ t ] + 1;
+			Q.push( 2*t );
+		}
 	}
 
 	return 0;
