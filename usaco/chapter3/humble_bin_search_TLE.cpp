@@ -28,24 +28,27 @@ typedef int i32;
 #define N_MAX 100001
 #define K_MAX 101
 
-i32 K, N, p[ K_MAX ], k[ K_MAX ];
+i32 K, N, p[ K_MAX ];
 i64 humble[ N_MAX ];
 i32 humble_sz = 0;
 
 void find_next()
 {
-	i64 winner = INT_MAX;
+	humble[ humble_sz ] = INT_MAX;
+	i64 last_humble = humble[ humble_sz-1 ];
 
-	for( i32 i = 0; i < K; ++i )
-		winner = min( winner, humble[ k[ i ] ] * p[ i ] );
-
-	for( i32 i = 0; i < K; ++i )
+	for( i32 j = 0; j < K; ++j )
 	{
-		if( humble[ k[ i ] ] * p[ i ] == winner )
-			++k[ i ];
+		i64* it = upper_bound( humble, humble+humble_sz, last_humble,
+			[&]( i64 val, i64 x ) {
+				return val < x * p[ j ];
+			});
+
+		if( it != humble+humble_sz )
+			humble[ humble_sz ] = min( humble[ humble_sz ], *it * p[ j ] );
 	}
 
-	humble[ humble_sz++ ] = winner;
+	++humble_sz;
 }
 
 i32 main()

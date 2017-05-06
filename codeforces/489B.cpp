@@ -1,4 +1,9 @@
 
+/* Use <F5> to compile & run program
+ * file.in will be redirected to stdin
+ * in file.out you'll get program stdout
+ */
+
 #include <algorithm>
 #include <bitset>
 #include <cassert>
@@ -19,43 +24,47 @@
 #include <string>
 #include <vector>
 
-#define INF 1000000001
-#define SQR(x) ((x)*(x))
-#define ALL(a) a.begin(), a.end()
-#define DIVC(a, b) (a/b+(a%b?1:0))
+#define inf 1000000001
+#define sqr(x) ((x)*(x))
+#define all(x) x.begin(), x.end()
 
-typedef unsigned long long uint64;
-typedef long long int64;
+typedef unsigned long long u64;
+typedef long long i64;
 
 using namespace std;
 
-template <class iteratorT>
-void show(string s, iteratorT a, iteratorT b) {
-	cout << s << ':';
-	for (; a != b; ++a)
-		cout << ' ' << *a;
-	cout << endl;
-}
+int main()
+{
+	int n, m;
 
-int n, m, t, a[101], b[101];
-
-int main() {
 	cin >> n;
-	for (int i = 0; i < n; ++i) {
-		cin >> t;
-		++a[t];
-	}
+	vector<int> a( n );
+	for( int& x : a )
+		cin >> x;
+
 	cin >> m;
-	for (int i = 0; i < n; ++i) {
-		cin >> t;
-		++b[t];
-	}
+	vector<int> b( m );
+	for( int& x : b )
+		cin >> x;
+
+	sort( all(a) );
+	sort( all(b) );
 
 	int ans = 0;
-	for (int i = 0; i < 101; ++i) {
-		if (a[i] > 0) {
+	for( int i = 0; i < a.size(); ++i )
+	{
+		for( int j = 0; j < b.size(); ++j )
+		{
+			if( abs( a[ i ] - b[ j ] ) <= 1 )
+			{
+				b[ j ] = inf;
+				++ans;
+				break;
+			}
 		}
 	}
+
+	cout << ans;
 
 	return 0;
 }

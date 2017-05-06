@@ -1,8 +1,7 @@
 
-/* Use <F5> to compile & run program
- * file.in will be redirected to stdin
- * in file.out you'll get program stdout
- */
+/* Use <F5> to compile & run program */
+/* file.in will be redirected to stdin */
+/* in file.out you'll get program stdout */
 
 #include <algorithm>
 #include <bitset>
@@ -24,9 +23,10 @@
 #include <string>
 #include <vector>
 
-#define inf 1000000001
-#define sqr(x) ((x)*(x))
-#define all(x) x.begin(), x.end()
+#define INF 1000000001
+
+template <class T> inline T SQR(T x) { return x*x; }
+template <class T> inline T DIVC(T a, T b) { return a/b+(a%b?1:0); }
 
 typedef unsigned long long u64;
 typedef long long i64;
@@ -35,6 +35,10 @@ using namespace std;
 
 int main()
 {
+#ifndef LOCAL
+	freopen("input.txt", "rt", stdin);
+	freopen("output.txt", "wt", stdout);
+#endif
 
 	return 0;
 }

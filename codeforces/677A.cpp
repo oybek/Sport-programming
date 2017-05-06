@@ -24,35 +24,34 @@
 #include <string>
 #include <vector>
 
-#define inf 1000000001
-#define sqr(x) ((x)*(x))
-#define all(x) x.begin(), x.end()
+#define INF 1000000001
+#define SQR(x) ((x)*(x))
 
 typedef unsigned long long u64;
 typedef long long i64;
-typedef std::pair<int, int> pii;
 
 using namespace std;
 
 int main()
 {
-	int n;
-	cin >> n;
+	//
+	int n, h;
+	cin >> n >> h;
 
-	vector<pair<int, int> > a( n );
-	for( pair<int, int>& x : a )
-		cin >> x.first >> x.second;
-
-	sort( all(a) );
-
-	if( is_sorted( all(a), []( pii a, pii b ) { return a.second < b.second; } ) )
+	//
+	int ans = n;
+	while( n-- )
 	{
-		cout << "Poor Alex";
+		int t;
+		cin >> t;
+
+		//
+		if( t > h )
+			++ans;
 	}
-	else
-	{
-		cout << "Happy Alex";
-	}
+
+	//
+	cout << ans << endl;
 
 	return 0;
 }

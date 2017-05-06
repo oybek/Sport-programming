@@ -30,29 +30,28 @@
 
 typedef unsigned long long u64;
 typedef long long i64;
-typedef std::pair<int, int> pii;
 
 using namespace std;
 
+int color[ 300001 ];
+
+bool replace(std::string& str, const std::string& from, const std::string& to) {
+    size_t start_pos = str.find(from);
+    if(start_pos == std::string::npos)
+        return false;
+    str.replace(start_pos, from.length(), to);
+    return true;
+}
+
 int main()
 {
-	int n;
-	cin >> n;
+	string s;
+	cin >> s;
 
-	vector<pair<int, int> > a( n );
-	for( pair<int, int>& x : a )
-		cin >> x.first >> x.second;
-
-	sort( all(a) );
-
-	if( is_sorted( all(a), []( pii a, pii b ) { return a.second < b.second; } ) )
-	{
-		cout << "Poor Alex";
-	}
-	else
-	{
-		cout << "Happy Alex";
-	}
+	int count = 0;
+	while( replace( s, "ab", "bba" ) )
+		++count;
+	cout << count << endl;
 
 	return 0;
 }

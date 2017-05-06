@@ -30,7 +30,6 @@
 
 typedef unsigned long long u64;
 typedef long long i64;
-typedef std::pair<int, int> pii;
 
 using namespace std;
 
@@ -38,20 +37,17 @@ int main()
 {
 	int n;
 	cin >> n;
-
-	vector<pair<int, int> > a( n );
-	for( pair<int, int>& x : a )
-		cin >> x.first >> x.second;
-
-	sort( all(a) );
-
-	if( is_sorted( all(a), []( pii a, pii b ) { return a.second < b.second; } ) )
+	if( n == 0 )
 	{
-		cout << "Poor Alex";
+		cout << 1 << endl;
+		return 0;
 	}
-	else
+	switch( n%4 )
 	{
-		cout << "Happy Alex";
+		case 1: cout << 8 << endl; break;
+		case 2: cout << 4 << endl; break;
+		case 3: cout << 2 << endl; break;
+		case 0: cout << 6 << endl; break;
 	}
 
 	return 0;
