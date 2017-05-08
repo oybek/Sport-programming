@@ -30,20 +30,10 @@ using namespace std;
 
 int main()
 {
-	int n;
-	scanf( "%d", &n );
+	int l, p, q;
+	scanf( "%d%d%d", &l, &p, &q );
 
-	i64 ans = 0;
-	i64 t = 9;
-	i64 dn = 1;
-	while( n > t )
-	{
-		ans += t*dn;
-		n -= t;
-		t *= 10;
-		++dn;
-	}
-	cout << ans + (n * dn)  << endl;
+	printf( "%.10f", float(l) * p / ( p + q ) );
 
 	return 0;
 }

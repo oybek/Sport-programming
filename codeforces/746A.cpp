@@ -12,6 +12,10 @@ using namespace std;
 
 int main()
 {
+	int a, b, c;
+	scanf( "%d%d%d", &a, &b, &c );
+	int t = min( a, min( b/2, c/4 ) );
+	printf( "%d", t + 2*t + 4*t );
 
 	return 0;
 }

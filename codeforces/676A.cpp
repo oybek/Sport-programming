@@ -33,17 +33,14 @@ int main()
 	int n;
 	scanf( "%d", &n );
 
-	i64 ans = 0;
-	i64 t = 9;
-	i64 dn = 1;
-	while( n > t )
-	{
-		ans += t*dn;
-		n -= t;
-		t *= 10;
-		++dn;
-	}
-	cout << ans + (n * dn)  << endl;
+	vector<int> a( n );
+	for( int i = 0; i < n; ++i )
+		scanf( "%d", &(a[i]) );
+
+	int imax = max_element(all(a)) - a.begin();
+	int imin = min_element(all(a)) - a.begin();
+
+	printf( "%d\n", max( max(imax-0, n-1-imax), max(imin-0, n-1-imin) ) );
 
 	return 0;
 }

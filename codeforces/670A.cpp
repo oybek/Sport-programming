@@ -33,17 +33,21 @@ int main()
 	int n;
 	scanf( "%d", &n );
 
-	i64 ans = 0;
-	i64 t = 9;
-	i64 dn = 1;
-	while( n > t )
+	int a, b;
+	a = b = n/7*2;
+
+	switch( n%7 )
 	{
-		ans += t*dn;
-		n -= t;
-		t *= 10;
-		++dn;
+		case 0: break;
+		case 1: a += 0; b += 1; break;
+		case 2: a += 0; b += 2; break;
+		case 3: a += 0; b += 2; break;
+		case 4: a += 0; b += 2; break;
+		case 5: a += 0; b += 2; break;
+		case 6: a += 1; b += 2; break;
 	}
-	cout << ans + (n * dn)  << endl;
+
+	printf( "%d %d", a, b );
 
 	return 0;
 }

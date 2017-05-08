@@ -32,19 +32,20 @@ int main()
 {
 	int n;
 	scanf( "%d", &n );
-
-	i64 ans = 0;
-	i64 t = 9;
-	i64 dn = 1;
-	while( n > t )
+	while( n-- )
 	{
-		ans += t*dn;
-		n -= t;
-		t *= 10;
-		++dn;
-	}
-	cout << ans + (n * dn)  << endl;
+		char s[99];
+		int a, b;
+		scanf( "%s %d %d", s, &a, &b );
 
+		if( a >= 2400 && b > a )
+		{
+			printf( "YES\n" );
+			return 0;
+		}
+	}
+
+	printf( "NO\n" );
 	return 0;
 }
 

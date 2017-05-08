@@ -12,6 +12,14 @@ using namespace std;
 
 int main()
 {
+	int n;
+	scanf( "%d", &n );
+
+	string s; s.reserve( 1001 );
+	for( int i = 1; s.size() <= n; ++i )
+		s += to_string( i );
+
+	printf( "%c", s[n-1] );
 
 	return 0;
 }
