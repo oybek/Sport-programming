@@ -29,6 +29,31 @@ using namespace std;
 
 int main()
 {
+	int n;
+	i64 x;
+	int sad = 0;
+
+	scanf("%d%I64d", &n, &x);
+	while( n-- )
+	{
+		char c;
+		int d;
+		scanf(" %c %d", &c, &d);
+
+		if( c == '-' )
+		{
+			if( x >= d )
+				x -= d;
+			else
+				++sad;
+		}
+		else
+		{
+			x += d;
+		}
+	}
+
+	printf("%I64d %d\n", x, sad);
 
 	return 0;
 }

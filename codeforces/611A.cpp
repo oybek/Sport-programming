@@ -29,6 +29,29 @@ using namespace std;
 
 int main()
 {
+	int n;
+	char s1[10], s2[10];
+	scanf("%d %s %s", &n, s1, s2);
+
+	if( s2[0] == 'w' )
+	{
+		printf("%d", ( n == 5 || n == 6 ? 53 : 52 ));
+	}
+	else
+	{
+		if( n == 31 )
+		{
+			puts("7");
+		}
+		else if( n == 30 )
+		{
+			puts("11");
+		}
+		else
+		{
+			puts("12");
+		}
+	}
 
 	return 0;
 }
