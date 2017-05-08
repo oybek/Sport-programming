@@ -19,34 +19,34 @@
 #include <string>
 #include <vector>
 
-#define INF 1000000001
-#define SQR(x) ((x)*(x))
-#define ALL(a) a.begin(), a.end()
-#define DIVC(a, b) (a/b+(a%b?1:0))
+#define inf 1000000001
+#define sqr(x) ((x)*(x))
+#define all(x) x.begin(), x.end()
 
-typedef unsigned long long uint64;
-typedef long long int64;
+typedef unsigned long long u64;
+typedef long long i64;
 
 using namespace std;
 
-#define n_max 5001
+int main()
+{
+	int n;
+	scanf( "%d", &n );
 
-int n;
-pair<int, int> ba[n_max];
+	vector<pair<int, int> > a( n );
+	for( int i = 0; i < n; ++i )
+		scanf( "%d %d", &(a[i].first), &(a[i].second) );
 
-bool is_good() {
-	for (int i = 0; i+1 < n; ++i)
-		if (ba[i].second > ba[i+1].second)
-			return false;
-	return true;
-}
+	sort( all(a) );
 
-int main() {
-	cin >> n;
-	for (int i = 0; i < n; ++i)
-		cin >> ba[i].first >> ba[i].second;
-	sort(ba, ba+n);
-	cout << (is_good() ? ba[n-1].second : ba[n-1].first);
+	int ans = a[0].second;
+	for( int i = 1; i < n; ++i )
+		if( ans > a[i].second )
+			ans = a[i].first;
+		else
+			ans = a[i].second;
+
+	cout << ans << endl;
 
 	return 0;
 }

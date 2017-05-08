@@ -8,7 +8,6 @@
 #include <cstring>
 #include <functional>
 #include <iomanip>
-#include <iostream>
 #include <iterator>
 #include <list>
 #include <map>
@@ -28,8 +27,22 @@ typedef long long i64;
 
 using namespace std;
 
+#define a_size 10001
+int a[a_size];
+
 int main()
 {
+	int dn, dm, z;
+
+	scanf( "%d%d%d", &dn, &dm, &z );
+
+	for( int n = dn; n <= z; n += dn )
+		++a[n];
+
+	for( int m = dm; m <= z; m += dm )
+		++a[m];
+
+	printf( "%ld\n", count( a, a+a_size, 2 ) );
 
 	return 0;
 }

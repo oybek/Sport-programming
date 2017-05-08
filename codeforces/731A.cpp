@@ -30,6 +30,17 @@ using namespace std;
 
 int main()
 {
+	string s;
+	cin >> s;
+	char cur = 'a';
+
+	int ans = 0;
+	for( char c : s )
+	{
+		ans += min(abs(cur-c), 26-abs(cur-c));
+		cur = c;
+	}
+	cout << ans << endl;
 
 	return 0;
 }

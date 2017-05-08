@@ -28,8 +28,24 @@ typedef long long i64;
 
 using namespace std;
 
+int ans( i64 n )
+{
+	if( n <= 0 )
+		return 1;
+	if( n%2 )
+		return 5*ans( n/2 )%100;
+	else
+		return 5*ans( n-1 )%100;
+}
+
 int main()
 {
+	puts("25");
+	return 0;
+
+	i64 n;
+	cin >> n;
+	printf( "%d\n", ans( n ) );
 
 	return 0;
 }

@@ -30,6 +30,12 @@ using namespace std;
 
 int main()
 {
+	int a, b;
+	scanf( "%d %d", &a, &b );
+	if( !a && !b )
+		printf( "NO\n" );
+	else
+		printf( "%s\n", abs(a-b) <= 1 ? "YES" : "NO" );
 
 	return 0;
 }
