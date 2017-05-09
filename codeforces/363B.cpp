@@ -1,49 +1,36 @@
 
-/* Use <F5> to compile & run program */
-/* file.in will be redirected to stdin */
-/* in file.out you'll get program stdout */
+#include <bits/stdc++.h>
 
-#include <algorithm>
-#include <bitset>
-#include <cassert>
-#include <climits>
-#include <cmath>
-#include <cstdio>
-#include <cstring>
-#include <functional>
-#include <iomanip>
-#include <iostream>
-#include <iterator>
-#include <list>
-#include <map>
-#include <numeric>
-#include <queue>
-#include <set>
-#include <stack>
-#include <string>
-#include <vector>
+#define inf 1000000001
+#define sqr(x) ((x)*(x))
+#define all(x) x.begin(), x.end()
 
-#define INF 1000000001
-
-template <class T> inline T SQR(T x) { return x*x; }
-template <class T> inline T DIVC(T a, T b) { return a/b+(a%b?1:0); }
-
-typedef unsigned long long ull;
-typedef long long ll;
+typedef unsigned long long u64;
+typedef long long i64;
 
 using namespace std;
 
-const int n_max = 150000;
-int n, k, h[n_max], min_s = INF, min_i;
+#define n_max 150002
 
-int main() {
-	cin >> n >> k;
-	for (int i = 0; i < k; ++i)
-		cin >> h[i];
+int n, k, h[n_max], s[n_max];
 
-	int s = 0;
-	for (int i = 0; i < k; ++i)
-		s += h[i];
+int main()
+{
+	scanf( "%d%d", &n, &k );
+	for( int i = 1; i <= n; ++i )
+		scanf( "%d", h+i );
+
+	s[1] = h[1];
+	for( int i = 2; i <= n; ++i )
+		s[i] = s[i-1]+h[i];
+
+	int ans = 1;
+	for( int i = 2; i+k-1 <= n; ++i )
+	{
+		if( s[i+k-1]-s[i-1] < s[ans+k-1]-s[ans-1] )
+			ans = i;
+	}
+	printf( "%d\n", ans );
 
 	return 0;
 }
