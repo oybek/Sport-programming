@@ -9,11 +9,12 @@ g++ $1 -std=c++11 -g -Wall -DLOCAL
 if [ -f "$2" ]; then
 	echo -e "${color}run.sh: ./a.out < $2${reset}"
 	./a.out < $2
+	sleep 1000
 else
-	echo -e "${color}run.sh: ./a.out${reset}"
-	./a.out
+	while :
+	do
+		echo -e "${color}run.sh: ./a.out${reset}"
+		./a.out
+	done
 fi
-
-echo -e "${color}run.sh: Press ctrl+c to exit${reset}"
-sleep 10000
 

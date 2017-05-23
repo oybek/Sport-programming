@@ -5,8 +5,8 @@
 #define sqr(x) ((x)*(x))
 #define all(x) x.begin(), x.end()
 
-typedef unsigned long long u64;
-typedef long long i64;
+typedef unsigned long long ull;
+typedef long long ll;
 
 using namespace std;
 
