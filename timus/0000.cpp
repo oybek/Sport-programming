@@ -1,30 +1,17 @@
 
-#include <set>
-#include <map>
-#include <list>
-#include <stack>
-#include <queue>
-#include <cmath>
-#include <bitset>
-#include <cstdio>
-#include <string>
-#include <vector>
-#include <cassert>
-#include <cstring>
-#include <climits>
-#include <iomanip>
-#include <iostream>
-#include <algorithm>
+#include <bits/stdc++.h>
 
-#define INF 1000000009
-#define SQR(x) ((x)*(x))
+#define inf 1000000001
+#define sqr(x) ((x)*(x))
+#define all(x) x.begin(), x.end()
 
-typedef unsigned long long uint64;
-typedef long long int64;
+typedef unsigned long long ull;
+typedef long long ll;
 
 using namespace std;
 
-int main() {
+int main()
+{
 
 	return 0;
 }
