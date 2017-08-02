@@ -5,17 +5,13 @@ case $1 in
 	;;
 
 	(*)
-		if [[ $1 =~ ^[0-9a-z\-]+\.cpp ]];
+		if [[ -f "$1" ]];
 		then
-			if [[ -f "$1" ]];
-			then
-				echo "File exists: $1"
-			else
-				cat 00000.cpp > $1
-			fi
-			gvim $1
+			echo "File exists: $1"
 		else
-			echo "arg format: ^[0-9]+\.cpp";
-		fi;;
+			cat 00000.cpp > $1
+		fi
+		gvim -p $1 -c ":37"
+		g++ $1 -g -std=c++11
 esac
 

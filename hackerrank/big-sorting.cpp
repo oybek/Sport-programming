@@ -10,20 +10,19 @@ typedef long long ll;
 
 using namespace std;
 
+#define n_max 200001
+
+int n;
+string a[n_max];
+
 int main()
 {
-	string s; s.reserve( 100001 );
-	cin >> s;
+	cin >> n;
+	for( int i = 0; i < n; ++i )
+		cin >> a[ i ];
 
-	if( s == "0" )
-	{
-		cout << "4";
-	}
-	else
-	{
-		int s1 = 1;
-		int s2 = pow(2, ( s[ s.size()-1 ]-'0' ));
-	}
+	sort( a, a+n, [](const string& s1, const string& s2) {
+	});
 
 	return 0;
 }

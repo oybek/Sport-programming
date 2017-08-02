@@ -10,19 +10,22 @@ typedef long long ll;
 
 using namespace std;
 
+#define n_max 100001
+
+int n, d;
+int a[ n_max ];
+
 int main()
 {
-	string s; s.reserve( 100001 );
-	cin >> s;
+	scanf( "%d%d", &n, &d );
+	for( int i = 0; i < n; ++i )
+		scanf( "%d", a+i );
 
-	if( s == "0" )
+	for( int i = d%n, t = n; t--; )
 	{
-		cout << "4";
-	}
-	else
-	{
-		int s1 = 1;
-		int s2 = pow(2, ( s[ s.size()-1 ]-'0' ));
+		printf( "%d ", a[ i ] );
+		if( ++i == n )
+			i = 0;
 	}
 
 	return 0;
