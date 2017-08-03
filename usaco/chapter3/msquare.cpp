@@ -99,7 +99,7 @@ int main()
 	}
 
 	cout << sol[ s ].size() << endl << sol[ s ] << endl;
-
+	//cout << sol[ s ] << endl;
 	return 0;
 }
 
