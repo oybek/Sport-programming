@@ -90,9 +90,7 @@ int main()
 	int ans = INF;
 	for( int i = 1; i <= P; ++i )
 	{
-		if( cown[i] <= 0 )
-			continue;
-
+		// we can also put sugar in pasture where is no cow
 		dijkstra(i);
 
 		int total_dist = 0;
