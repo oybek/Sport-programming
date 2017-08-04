@@ -1,10 +1,22 @@
 # Programming trainings
 
 Source codes from solving problems on 
+* [HackerRank][hackerrank] ([oybek][hackerrankme])
 * [USACO Training Program][usaco]
-* [Timus Online Judge][timus]
-* [Codeforces][codeforces]
-* [UVa Online Judge][uva] and other.
+* [Timus Online Judge][timus] ([oybek][timusme])
+* [Codeforces][codeforces] ([oybek][codeforcesme])
+* [UVa Online Judge][uva] ([_oybek_][uvame])
+and other.
+
+[timus]: <http://acm.timus.ru>
+[timusme]: <http://acm.timus.ru/author.aspx?id=124580&sort=difficulty>
+[usaco]: <http://train.usaco.org>
+[uva]: <http://uva.online-judge.org>
+[uvame]: <http://uhunt.felix-halim.net/id/289023>
+[codeforces]: <http://codeforces.ru>
+[codeforcesme]: <http://codeforces.com/profile/oybek>
+[hackerrank]: <https://www.hackerrank.com>
+[hackerrankme]: <https://www.hackerrank.com/oybekjon>
 
 # Life situations
 When you found counter test after sending your code to the testing system
@@ -78,8 +90,3 @@ void dijkstra( int src )
 # For inspiration
 
 [![Alt text](http://www.letsbebrief.co.uk/letsbebrief-content/uploads/nike_take_it_to_the_next_level_535.jpg)](https://www.youtube.com/watch?v=lZA-57h64kE)
-
-[timus]: <http://acm.timus.ru>
-[usaco]: <http://train.usaco.org>
-[uva]: <http://uva.online-judge.org>
-[codeforces]: <http://codeforces.ru>
