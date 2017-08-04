@@ -6,6 +6,16 @@ Source codes from solving problems on
 * [Codeforces][codeforces]
 * [UVa Online Judge][uva] and other.
 
+# Life situations
+When you found counter test after sending your code to the testing system
+
+![](https://media.giphy.com/media/uoYauVJj6anpC/giphy.gif)
+
+But whatever got AC
+
+![](https://media.giphy.com/media/fDzM81OYrNjJC/giphy.gif)
+
+
 # Common algorithms
 Mostly used algorithms and their illustrations
 ## Graph
@@ -65,12 +75,6 @@ void dijkstra( int src )
 }
 
 ```
-# Gifs
-
-When you found counter test after sending your code to the testing system
-
-![Found](https://media.giphy.com/media/uoYauVJj6anpC/giphy.gif)
-
 # For inspiration
 
 [![Alt text](http://www.letsbebrief.co.uk/letsbebrief-content/uploads/nike_take_it_to_the_next_level_535.jpg)](https://www.youtube.com/watch?v=lZA-57h64kE)
