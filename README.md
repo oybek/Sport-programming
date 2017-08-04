@@ -1,10 +1,15 @@
 # Programming trainings
 
-Source codes from solving problems on [USACO Training Program][usaco], [Timus Online Judge][timus] and other.
+Source codes from solving problems on [USACO Training Program][usaco], [Timus Online Judge][timus], [Codeforces][codeforces], [UVa Online Judge][uva] and other.
+
+# Common algorithms
+## Graph
+### Dijkstra
+![Found](https://upload.wikimedia.org/wikipedia/commons/5/57/Dijkstra_Animation.gif)
 
 # Gifs
 
-When you found counter test after sending your code to testing system
+When you found counter test after sending your code to the testing system
 
 ![Found](https://media.giphy.com/media/uoYauVJj6anpC/giphy.gif)
 
@@ -14,3 +19,5 @@ When you found counter test after sending your code to testing system
 
 [timus]: <http://acm.timus.ru>
 [usaco]: <http://train.usaco.org>
+[uva]: <http://uva.online-judge.org>
+[codeforces]: <http://codeforces.ru>
