@@ -1,4 +1,4 @@
-# Programming trainings
+git# Programming trainings
 
 Source codes from solving problems on 
 * [HackerRank][hackerrank] ([oybek][hackerrankme])
