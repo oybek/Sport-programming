@@ -59,7 +59,7 @@ int main()
 		for( int l = 1; l <= L; ++l )
 			dp[n][l] = dp[n-1][l] + dp[n-1][l-1]; } 
 #ifdef LOCAL
-//	show_dp();
+	show_dp();
 #endif
 
 	//

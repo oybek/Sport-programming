@@ -8,6 +8,7 @@ LANG: C++
 #include <bits/stdc++.h>
 using namespace std;
 
+// very bad solution
 int main()
 {
 #ifndef LOCAL
@@ -23,9 +24,9 @@ int main()
 		cin >> a[i] >> b[i] >> c[i];
 
 	int mx = 101, my = 101, mz = 101;
-	for( int x = 2; x <= 100; ++x ) 
-	for( int y = 0; y <= 100; ++y ) 
-	for( int z = 1; z <= 100; ++z ) 
+	for( int x = 0; x <= 100; ++x )
+	for( int y = 0; y <= 100; ++y )
+	for( int z = 0; z <= 100; ++z )
 	{
 		if( !x && !y && !z )
 			continue;
@@ -34,9 +35,11 @@ int main()
 		int s2 = x*b[1] + y*b[2] + z*b[3];
 		int s3 = x*c[1] + y*c[2] + z*c[3];
 
-		if( s1%a[0] == 0 &&
-			s2%b[0] == 0 &&
-			s3%c[0] == 0 &&
+		if( (!a[0] || s1%a[0] == 0) &&
+			(!b[0] || s2%b[0] == 0) &&
+			(!c[0] || s3%c[0] == 0) &&
+			s1*b[0] == s2*a[0] &&
+			s1*c[0] == s3*a[0] &&
 		 	x+y+z < mx+my+mz )
 		{
 			mx = x;
