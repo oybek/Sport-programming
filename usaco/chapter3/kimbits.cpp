@@ -28,7 +28,7 @@ void show_dp()
 string get_ans( int n, int l, long i )
 {
 #ifdef LOCAL
-	cout << n << ' ' << l << ' ' << i << endl;
+//	cout << n << ' ' << l << ' ' << i << endl;
 #endif
 	if( n == 0 )
 		return "";
@@ -59,7 +59,7 @@ int main()
 		for( int l = 1; l <= L; ++l )
 			dp[n][l] = dp[n-1][l] + dp[n-1][l-1]; } 
 #ifdef LOCAL
-	show_dp();
+//	show_dp();
 #endif
 
 	//
