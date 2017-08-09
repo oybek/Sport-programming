@@ -48,7 +48,7 @@ pair<int, int> get_ans( int i, int j, bool firstPlayerTurn )
 	{
 		if( i+1 == j )
 		{
-			return make_pair( min(a[i], a[j]), max(a[i], a[j]) );
+			dp[i][j][firstPlayerTurn] = make_pair( min(a[i], a[j]), max(a[i], a[j]) );
 		}
 		else
 		{
