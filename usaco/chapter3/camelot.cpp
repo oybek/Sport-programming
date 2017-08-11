@@ -2,15 +2,15 @@
 /*
 ID: aybek.h2
 PROG: camelot
-LANG: C++
+LANG: C++11
 */
 
 #include <bits/stdc++.h>
 using namespace std;
 
-#define INF 1000000001
+#define INF 100001
 
-#define R_MAX 27
+#define R_MAX 31
 #define C_MAX 31
 
 int R, C;
@@ -30,7 +30,7 @@ void show_board( const T a[][C_MAX], int r, int c )
 	for( int i = 0; i < r; ++i )
 	{
 		for( int j = 0; j < c; ++j )
-			cout << setw(2) << a[i][j];
+			cout << setw(3) << a[i][j];
 		cout << endl;
 	}
 }
@@ -119,28 +119,30 @@ void bfs_king( int x, int y )
 }
 
 //
-void find_knight_cells()
+void find_knight_cells( int x, int y, int s )
 {
-	for( int i = 0; i < knight_coord.size(); ++i )
-	{
-		int x = knight_coord[i].first;
-		int y = knight_coord[i].second;
+	if( x < 0 || x >= R || y < 0 || y >= C )
+		return;
 
-		while( knight_bfs[x][y] > 0 )
-		{
-			knight[x][y] = true;
+	if( knight[x][y] )
+		return;
 
-			if( x-1 >= 0 && y-2 >= 0 && knight_bfs[x-1][y-2] == knight_bfs[x][y]-1 ) { x -= 1; y -= 2; }
-			if( x-1 >= 0 && y+2 <  C && knight_bfs[x-1][y+2] == knight_bfs[x][y]-1 ) { x -= 1; y += 2; }
-			if( x+1  < R && y-2 >= 0 && knight_bfs[x+1][y-2] == knight_bfs[x][y]-1 ) { x += 1; y -= 2; }
-			if( x+1  < R && y+2  < C && knight_bfs[x+1][y+2] == knight_bfs[x][y]-1 ) { x += 1; y += 2; }
+	if( knight_bfs[x][y] != s )
+		return;
 
-			if( x-2 >= 0 && y-1 >= 0 && knight_bfs[x-2][y-1] == knight_bfs[x][y]-1 ) { x -= 2; y -= 1; }
-			if( x-2 >= 0 && y+1  < C && knight_bfs[x-2][y+1] == knight_bfs[x][y]-1 ) { x -= 2; y += 1; }
-			if( x+2  < R && y-1 >= 0 && knight_bfs[x+2][y-1] == knight_bfs[x][y]-1 ) { x += 2; y -= 1; }
-			if( x+2  < R && y+1  < C && knight_bfs[x+2][y+1] == knight_bfs[x][y]-1 ) { x += 2; y += 1; }
-		}
-	}
+	knight[x][y] = 1;
+	if( knight_bfs[x][y] == 0 )
+		return;
+
+	find_knight_cells( x-1, y-2, s-1 );
+	find_knight_cells( x-1, y+2, s-1 );
+	find_knight_cells( x+1, y-2, s-1 );
+	find_knight_cells( x+1, y+2, s-1 );
+
+	find_knight_cells( x-2, y-1, s-1 );
+	find_knight_cells( x-2, y+1, s-1 );
+	find_knight_cells( x+2, y-1, s-1 );
+	find_knight_cells( x+2, y+1, s-1 );
 }
 
 int main()
@@ -156,12 +158,12 @@ int main()
 	cin >> R >> C;
 	cin >> c >> n;
 
-	king.first = c-'A';
-	king.second = n-1;
+	king.first = n-1;
+	king.second = c-'A';
 
 	while( cin >> c >> n )
 	{
-		knight_coord.push_back( make_pair( c-'A', n-1 ) );
+		knight_coord.push_back( make_pair( n-1, c-'A' ) );
 	}
 
 	int best = INF;
@@ -184,13 +186,15 @@ int main()
 
 			// detect cells where at least one knight will be
 			knight[x][y] = 1;
-			find_knight_cells();
+			for( int i = 0; i < knight_coord.size(); ++i )
+				find_knight_cells( knight_coord[i].first, knight_coord[i].second, knight_bfs[knight_coord[i].first][knight_coord[i].second] );
 
 #ifdef LOCAL
+			show_board( knight_bfs, R, C );
+			cout << endl;
 			show_board( knight, R, C );
 			cout << endl;
 #endif
-
 
 			int king_min = INF;
 			for( int i = 0; i < R; ++i )
