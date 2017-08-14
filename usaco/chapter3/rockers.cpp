@@ -8,64 +8,50 @@ LANG: C++
 #include <bits/stdc++.h>
 using namespace std;
 
-// knapsack problem
-
 #define N_MAX 21
-#define T_MAX 21 
 
 int N, T, M;
-vector<int> song;
+int a[N_MAX];
 
-int dp[N_MAX][T_MAX];
-
-template <class it>
-void print( it a, it b )
+int count_setbits( int n )
 {
-	while( a != b )
-		cout << setw(2) << *a++;
-	cout << endl;
+	int cnt = 0;
+	for(; n; n >>= 1 )
+		cnt += n&1;
+	return cnt;
 }
 
-void find_ans( int k, int s, vector<int>& ans )
+int get_written_songs_num( int subset )
 {
-	if( dp[k][s] == 0 )
-		return;
+	int m = M;
+	int t = T;
 
-	if( dp[k-1][s] == dp[k][s] )
-		find_ans( k-1, s, ans );
-	else
+	int songs_written = 0;
+
+	for( int i = 0; i < N; ++i )
 	{
-		find_ans( k-1, s-song[k], ans );
-		ans.push_back( k );
-	}
-}
-
-void knapsack()
-{
-	for( int i = 0; i <= T; ++i )
-		dp[0][i] = 0;
-
-	for( int i = 0; i <= N; ++i )
-		dp[i][0] = 0;
-
-	for( int k = 1; k <= N; ++k )
-		for( int s = 1; s <= T; ++s )
-			if( s >= song[k] )
-				dp[k][s] = max( dp[k-1][s], dp[k-1][s-song[k]] + 1 );
+		if( subset&(1<<i) )
+		{
+			if( a[i] <= t )
+			{
+				t -= a[i];
+				++songs_written;
+			}
 			else
-				dp[k][s] = dp[k-1][s];
+			{
+				// no disks left
+				if( m == 1 )
+					break;
 
-	vector<int> ans;
+				// get new disk
+				t = T;
+				--m;
+				--i;
+			}
+		}
+	}
 
-	find_ans( N, T, ans );
-
-	// slyly delete song that placed in disk
-	for( int i = 0; i < ans.size(); ++i )
-		song[ans[i]] = T+1;
-
-#ifdef LOCAL
-	print( ans.begin(), ans.end() );
-#endif
+	return songs_written;
 }
 
 int main()
@@ -75,17 +61,39 @@ int main()
 	freopen( "rockers.out", "wt", stdout );
 #endif
 
-	//
+#ifdef LOCAL
+	assert( count_setbits( 3 ) == 2 );
+	assert( count_setbits( 5 ) == 2 );
+	assert( count_setbits( 8 ) == 1 );
+	assert( count_setbits( 31 ) == 5 );
+#endif
+
 	cin >> N >> T >> M;
+	for( int i = 0; i < N; ++i )
+		cin >> a[i];
 
-	song.resize( N+1 );
-	for( int i = 1; i <= N; ++i )
-		cin >> song[i];
+	int ans_subset;
+	int ans = 0;
+	// bruteforce >:(
+	for( int subset = 0; subset < (1<<N); ++subset )
+	{
+		int wanted = count_setbits( subset );
+		int written = get_written_songs_num( subset );
+		if( written == wanted )
+		{
+			if( ans < written )
+			{
+				ans_subset = subset;
+			}
+			ans = max( ans, written );
+		}
+	}
 
-	while( M-- )
-		knapsack();
+#ifdef LOCAL
+	cout << bitset<20>(ans_subset) << endl;
+#endif
 
-	cout << count( song.begin(), song.end(), T+1 ) << endl;
+	cout << ans << endl;
 
 	return 0;
 }
