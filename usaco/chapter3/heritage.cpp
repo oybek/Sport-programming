@@ -8,11 +8,21 @@ LANG: C++
 #include <bits/stdc++.h>
 using namespace std;
 
-string inorder;
-string preorder;
+string in;
+string pre;
+string ans;
 
-void post_order( string inorder, string preorder )
+void post( string in, string pre )
 {
+	if( in.size() == 0 )
+		return;
+
+	int i = in.find( pre[0] );
+
+	post( in.substr( 0, i ), pre.substr( 1 ) );
+	post( in.substr( i+1 ), pre.substr( i+1 ) );
+
+	ans.push_back( pre[0] );
 }
 
 int main()
@@ -22,8 +32,11 @@ int main()
 	freopen( "heritage.out", "wt", stdout );
 #endif
 
-	cin >> inorder >> preorder;
-	post_order( inorder );
+	cin >> in >> pre;
+	ans.reserve( in.size() );
+
+	post( in, pre );
+	cout << ans << endl;
 
 	return 0;
 }
