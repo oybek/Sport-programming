@@ -14,6 +14,14 @@ int N;
 int a[N_MAX];
 bitset< 256*256-512+1 > cando;
 
+int gcd( int* a, int* b )
+{
+	int t = *a;
+	for(; a != b; ++a )
+		t = __gcd( t, *a );
+	return t;
+}
+
 int main()
 {
 #ifndef LOCAL
@@ -27,21 +35,21 @@ int main()
 
 	sort( a, a+N );
 
-	cando[0] = 1;
-	for( int i = 0; i < cando.size(); ++i )
-	{
-		for( int j = 0; j < N; ++j )
-			if( i >= a[j] && cando[i-a[j]] )
-				cando[i] = cando[i-a[j]];
-	}
-
-	if( !cando[ cando.size()-1 ] )
+	if( a[0] == 1 || gcd( a, a+N ) > 1 )
 	{
 		cout << 0 << endl;
 		return 0;
 	}
 
-	for( int i = cando.size()-1; i >= a[0]; --i )
+	cando[0] = 1;
+	for( int i = 0; i < cando.size(); ++i )
+	{
+		for( int j = 0; j < N; ++j )
+			if( i >= a[j] && cando[i-a[j]] )
+				cando[i] = 1;
+	}
+
+	for( int i = cando.size()-1; i > 0; --i )
 	{
 		if( !cando[i] )
 		{
