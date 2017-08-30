@@ -83,12 +83,12 @@ int ans = inf;
 bitset< N_MAX > was;
 vector<int> path;
 
-int get_path_len()
+int get_path_len( const vector<int>& path )
 {
 	int len = 0;
 	for( int i = 0; i+1 < path.size(); ++i )
 		len += G[ path[i] ][ path[i+1] ];
-	len += G[ path[ path.size()-1 ] ][ 0 ];
+	len += G[ path[path.size()-1] ][ path[0] ];
 	return len;
 }
 
@@ -105,7 +105,7 @@ void dfs( int cur )
 {
 	if( path.size() > 2 )
 	{
-		ans = min( ans, get_path_len() );
+		ans = min( ans, get_path_len( path ) );
 #ifdef LOCAL
 		cout << ans << endl;
 		print_path();
@@ -162,6 +162,7 @@ int main()
 	{
 		path.clear();
 
+		was.reset();
 		was[i] = 1;
 		path.push_back( i );
 
@@ -169,6 +170,18 @@ int main()
 
 		path.pop_back();
 	}
+
+#ifdef LOCAL
+	cout << endl;
+	{
+		vector<int> a{ 1, 0, 2 };
+		cout << get_path_len( a ) << endl;
+	}
+	{
+		vector<int> a{ 0, 1, 2 };
+		cout << get_path_len( a ) << endl;
+	}
+#endif
 
 	cout << ans << endl;
 
