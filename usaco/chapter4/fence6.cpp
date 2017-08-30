@@ -2,7 +2,7 @@
 /*
 ID: aybek.h2
 PROG: fence6
-LANG: C++
+LANG: C++11
 */
 
 #include <bits/stdc++.h>
@@ -80,6 +80,57 @@ void construct_graph()
 
 int ans = inf;
 
+bitset< N_MAX > was;
+vector<int> path;
+
+int get_path_len()
+{
+	int len = 0;
+	for( int i = 0; i+1 < path.size(); ++i )
+		len += G[ path[i] ][ path[i+1] ];
+	len += G[ path[ path.size()-1 ] ][ 0 ];
+	return len;
+}
+
+void print_path()
+{
+	for( int i = 0; i < path.size(); ++i )
+	{
+		cout << path[i] << ' ';
+	}
+	cout << endl;
+}
+
+void dfs( int cur )
+{
+	if( path.size() > 2 )
+	{
+		ans = min( ans, get_path_len() );
+#ifdef LOCAL
+		cout << ans << endl;
+		print_path();
+#endif
+	}
+
+	for( int i = 0; i < N; ++i )
+	{
+		// no edge
+		if( G[cur][i] == inf )
+			continue;
+
+		if( was[i] )
+			continue;
+
+		was[ i ] = 1;
+		path.push_back( i );
+
+		dfs( i );
+
+		was[ i ] = 0;
+		path.pop_back();
+	}
+}
+
 int main()
 {
 #ifndef LOCAL
@@ -93,6 +144,7 @@ int main()
 
 	construct_graph();
 
+#ifdef LOCAL
 	for( int i = 0; i < N; ++i )
 	{
 		for( int j = 0; j < N; ++j )
@@ -104,6 +156,21 @@ int main()
 		}
 		cout << endl;
 	}
+#endif
+
+	for( int i = 0; i < N; ++i )
+	{
+		path.clear();
+
+		was[i] = 1;
+		path.push_back( i );
+
+		dfs( i );
+
+		path.pop_back();
+	}
+
+	cout << ans << endl;
 
 	return 0;
 }
