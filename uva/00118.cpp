@@ -148,7 +148,7 @@ int main() {
 	}
 
 	for( auto r : robot )
-		cout << r.x << ' ' << r.y << ' ' << r.o << ' ' << (r.dead ? "LOST" : "") << endl;
+		cout << r.x << ' ' << r.y << ' ' << r.o << (r.dead ? " LOST" : "") << endl;
 
 	return 0;
 }
