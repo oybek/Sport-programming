@@ -12,6 +12,21 @@ using namespace std;
 
 int main()
 {
+	int n;
+	vector< int > a;
+
+	cin >> n;
+	a.resize(n);
+	for( int& x : a )
+		cin >> x;
+
+	sort( a.rbegin(), a.rend() );
+
+	for( int x : a )
+	{
+		int x_sqrt = round( sqrt( x ) );
+		if( sqr( x_sqrt )
+	}
 
 	return 0;
 }

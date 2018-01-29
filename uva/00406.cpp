@@ -1,58 +1,93 @@
-#include <cmath>
-#include <vector>
-#include <bitset>
-#include <cassert>
-#include <iostream>
-#include <algorithm>
+
+#include <bits/stdc++.h>
+
+#define inf 1000000001
+#define sqr(x) ((x)*(x))
+#define all(x) x.begin(), x.end()
+
+typedef unsigned long long ull;
+typedef long long ll;
+
 using namespace std;
 
-#define N_MAX 1001
-bitset<N_MAX> prime;
-vector<int> primes, ans;
 
-void gen_sieve() {
-	prime.set();
-	prime[0] = prime[1] = false;
-	for (int i = 2; i*i < N_MAX; ++i)
-		if (prime[i])
-			for (int j = i*i; j < N_MAX; j += i)
-				prime[j] = false;
-	prime[1] = true;
+#define SIEVE_SIZE 1001
+
+bitset< SIEVE_SIZE > is_prime;
+
+void init_is_prime()
+{
+	is_prime.set();
+	is_prime[0] = is_prime[1] = false;
+	for( int i = 2; i*i < SIEVE_SIZE; ++i )
+		if( is_prime[i] )
+			for( int j = i*i; j < SIEVE_SIZE; j += i )
+				is_prime[j] = false;
+	is_prime[1] = true;
 }
 
-int main() {
-	gen_sieve();
-	for (int i = 0; i < N_MAX; ++i)
-		if (prime[i])
-			primes.push_back(i);
+int main()
+{
+	init_is_prime();
 
 	int N, C;
-	while (cin >> N >> C) {
-		cout << N << ' ' << C << ':';
+	while( cin >> N >> C )
+	{
+		vector<int> primes; primes.resize(0);
 
-		/* number of primes */
-		int n = primes.size()-1;
-		while (primes[n] > N)
-			--n;
+		for( int i = 1; i <= N; ++i )
+			if( is_prime[i] )
+				primes.push_back( i );
 
-		ans.resize(0);
-		if (n%2) {
-			ans.push_back(primes[n/2+1]);
-			for (int t = 0; t < C-1; ++t)
-				ans.push_back(primes[n/2-t]);
-			for (int t = 0; t < C-1; ++t)
-				ans.push_back(primes[n/2+2+t]);
-		} else {
-			for (int t = 0; t < C; ++t)
-				ans.push_back(primes[n/2-t]);
-			for (int t = 0; t < C; ++t)
-				ans.push_back(primes[n/2+1+t]);
+		vector<int> ans; ans.resize(0);
+
+		if( primes.size()%2 )
+		{
+			int i;
+			int j;
+			int n = 2*C-1;
+
+			i = j = primes.size()/2;
+
+			ans.push_back( primes[i] ); n--;
+
+			while( (n > 0) && (--i >= 0) && (++j < primes.size()) )
+			{
+				ans.push_back( primes[i] );
+				ans.push_back( primes[j] );
+
+				n -= 2;
+			}
+		}
+		else
+		{
+			int i;
+			int j;
+			int n = 2*C;
+
+			i = primes.size()/2-1;
+			j = primes.size()/2;
+
+			ans.push_back( primes[i] );
+			ans.push_back( primes[j] );
+
+			n -= 2;
+
+			while( (n > 0) && (--i >= 0) && (++j < primes.size()) )
+			{
+				ans.push_back( primes[i] );
+				ans.push_back( primes[j] );
+
+				n -= 2;
+			}
 		}
 
-		sort(ans.begin(), ans.end());
-		for (int i = 0; i < ans.size(); ++i)
-			cout << ' ' << ans[i];
-		cout << "\n\n";
+		sort( all(ans) );
+
+		cout << N << ' ' << C << ':';
+		for( auto x : ans )
+			cout << ' ' << x;
+		cout << endl << endl;
 	}
 
 	return 0;
