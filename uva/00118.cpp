@@ -1,81 +1,154 @@
 
+#include <set>
+#include <map>
+#include <list>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <bitset>
 #include <cstdio>
+#include <string>
+#include <vector>
+#include <cassert>
+#include <cstring>
+#include <climits>
+#include <iomanip>
 #include <iostream>
+#include <algorithm>
+
+#define INF 1000000001
+#define SQR(x) ((x)*(x))
+
+typedef unsigned long long uint64;
+typedef long long int64;
+
 using namespace std;
 
-#define MAX_SIZE 150
+int world_x, world_y;
+bool scent[ 51 ][ 51 ];
 
-const char s[] = "NESW";
+struct robots {
+	bool dead;
+	char o;
+	int x;
+	int y;
 
-int rown, coln;
-int a[ MAX_SIZE ][ MAX_SIZE ];
-char com[ 128 ];
+	string program;
 
-struct robot {
-	int x, y, dir;
-};
+	void move( char c ) {
+		// save yourself
+		int old_x = x;
+		int old_y = y;
+		int old_o = o;
 
-int main() {
-	char t;
-	bool lost;
-	robot rob;
-
-	scanf("%d%d", &rown, &coln);
-	while (scanf("%d%d%c", &rob.x, &rob.y, &t) != EOF) {
-		lost = false;
-
-		scanf("%s", com);
-
-		for (rob.dir = 0; s[ rob.dir ] != t; ++rob.dir);
-		for (char * c = com; *c; ++c) {
-			if (*c == 'F') {
-				if (a[ rob.x ][ rob.y ]) {
-					switch (s[ rob.dir ]) {
-						case 'N':
-							if (++rob.x >= rown) --rob.x;
-							break;
-						case 'S':
-							if (--rob.x <  0) ++rob.x;
-							break;
-						case 'E':
-							if (++rob.y >= coln) --rob.y;
-							break;
-						case 'W':
-							if (--rob.y <  0) ++rob.y;
-							break;
+		//
+		switch( c ) {
+			case 'F': {
+					switch( o ) {
+						case 'N': ++y; break;
+						case 'S': --y; break;
+						case 'E': ++x; break;
+						case 'W': --x; break;
+						default: assert( false );
 					}
-				} else {
-					switch (s[ rob.dir ]) {
-						case 'N':
-							if (++rob.x >= rown) lost = 1, --rob.x;
-							break;
-						case 'S':
-							if (--rob.x <  0) lost = 1, ++rob.x;
-							break;
-						case 'E':
-							if (++rob.y >= coln) lost = 1, --rob.y;
-							break;
-						case 'W':
-							if (--rob.y <  0) lost = 1, ++rob.y;
-							break;
-					}
-					if (lost) {
-						a[ rob.x ][ rob.y ] = 1;
-						printf("%d %d %c LOST\n", rob.x, rob.y, s[ rob.dir ]);
-						break;
-					}
+					break;
 				}
-			} else {
-				rob.dir = (*c == 'R' ? rob.dir+1 : rob.dir-1);
-				if (rob.dir >= 4) rob.dir -= 4;
-				if (rob.dir <  0) rob.dir += 4;
-			}
+
+			case 'R': {
+					switch( o ) {
+						// S
+						//W E
+						// N
+						case 'N': o = 'E'; break;
+						case 'S': o = 'W'; break;
+						case 'E': o = 'S'; break;
+						case 'W': o = 'N'; break;
+						default: assert( false );
+					}
+					break;
+				}
+
+			case 'L': {
+					switch( o ) {
+						case 'N': o = 'W'; break;
+						case 'S': o = 'E'; break;
+						case 'E': o = 'N'; break;
+						case 'W': o = 'S'; break;
+						default: assert( false );
+					}
+					break;
+				}
 		}
 
-		if (!lost) {
-			printf("%d %d %c\n", rob.x, rob.y, s[ rob.dir ]);
+		if( x < 0 || y < 0 || x > world_x || y > world_y ) {
+			dead = !scent[ old_x ][ old_y ];
+
+			scent[ old_x ][ old_y ] = true;
+
+			o = old_o;
+			x = old_x;
+			y = old_y;
 		}
 	}
+};
+
+vector< robots > robot;
+
+#ifdef DEBUG
+void draw( robots r )
+{
+	char grid[51][51];
+	for( int x = 0; x <= world_x; ++x )
+	{
+		for( int y = 0; y <= world_y; ++y )
+		{
+			grid[x][y] = scent[x][y] ? 's' : '.';
+		}
+	}
+
+	grid[r.x][r.y] = r.o;
+
+	for( int x = 0; x <= world_x; ++x )
+	{
+		for( int y = 0; y <= world_y; ++y )
+			cout << grid[x][y];
+		cout << endl;
+	}
+	cout << endl;
+}
+#endif
+
+int main() {
+	// read input
+
+	// read world sizes
+	cin >> world_x >> world_y;
+
+	// read robots
+	robots rob;
+	rob.dead = false;
+
+	while( cin >> rob.x >> rob.y >> rob.o >> rob.program )
+		robot.push_back( rob );
+
+	for( auto& r : robot )
+	{
+		for( int i = 0; i < r.program.size(); ++i )
+		{
+#ifdef DEBUG
+			draw( r );
+#endif
+			if( !r.dead )
+				r.move( r.program[i] );
+		}
+
+#ifdef DEBUG
+		cout << "----------------" << endl;
+#endif
+	}
+
+	for( auto r : robot )
+		cout << r.x << ' ' << r.y << ' ' << r.o << (r.dead ? " LOST" : "") << endl;
 
 	return 0;
 }
