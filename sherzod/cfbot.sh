@@ -15,12 +15,11 @@ do
 	time=`echo ${json} | python -c 'import json,sys;obj=json.load(sys.stdin);print obj["result"][0]["creationTimeSeconds"]'`
 	lang=`echo ${json} | python -c 'import json,sys;obj=json.load(sys.stdin);print obj["result"][0]["programmingLanguage"]'`
 
-	if [ "$time" != "$prev_time_oybek" ];
+	if [ "$time" != "$prev_time_oybek" ] && [ -n "$verdict" ] && [ "$verdict" != "TESTING" ];
 	then
 		curl -s -X POST https://api.telegram.org/bot${bot_token}/sendMessage -d chat_id=${group_id} -d text="Name: *$user_name*%0AProblem: *$name*%0AVerdict: \`$verdict\`%0ALanguage: *$lang*" -d parse_mode="markdown" 
+		prev_time_oybek=${time}
 	fi
-
-	prev_time_oybek=${time}
 
 	json=`curl -s "http://codeforces.com/api/user.status?handle=${user_name_2}&from=1&count=1"`
 	verdict=`echo ${json} | python -c 'import json,sys;obj=json.load(sys.stdin);print obj["result"][0]["verdict"]'`
@@ -29,12 +28,11 @@ do
 	time=`echo ${json} | python -c 'import json,sys;obj=json.load(sys.stdin);print obj["result"][0]["creationTimeSeconds"]'`
 	lang=`echo ${json} | python -c 'import json,sys;obj=json.load(sys.stdin);print obj["result"][0]["programmingLanguage"]'`
 
-	if [ "$time" != "$prev_time_sherzod" ];
+	if [ "$time" != "$prev_time_sherzod" ] && [ -n "$verdict" ] && [ "$verdict" != "TESTING" ];
 	then
 		curl -s -X POST https://api.telegram.org/bot${bot_token}/sendMessage -d chat_id=${group_id} -d text="Name: *$user_name_2*%0AProblem: *$name*%0AVerdict: \`$verdict\`%0ALanguage: *$lang*" -d parse_mode="markdown" 
+		prev_time_sherzod=${time}
 	fi
-
-	prev_time_sherzod=${time}
 
 	sleep 10
 done
