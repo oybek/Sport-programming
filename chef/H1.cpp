@@ -55,10 +55,10 @@ class board
 		}
 
 		// Создает новую доску и меняет в ней местами элементы на позициях a и b
-		board swap( coord a, coord b )
+		board swap( int x1, int y1, int x2, int y2 )
 		{
 			board new_board = *this;
-			std::swap( new_board.get( a.x, a.y ), new_board.get( b.x, b.y ) );
+			std::swap( new_board.get( x1, y1 ), new_board.get( x2, y2 ) );
 			return new_board;
 		}
 
@@ -133,14 +133,14 @@ class
 						{
 							int sum = cur_board.get(i, j) + cur_board.get(i+1, j);
 							if( is_prime( sum ) )
-								Q.push( make_pair( cur_board.swap( coord(i+1, j), coord(i, j) ), cur_depth+1 ) );
+								Q.push( make_pair( cur_board.swap( i+1, j,  i, j ), cur_depth+1 ) );
 						}
 
 						if( j+1 < cur_board.get_length() )
 						{
 							int sum = cur_board.get(i, j+1) + cur_board.get(i, j);
 							if( is_prime( sum ) )
-								Q.push( make_pair( cur_board.swap( coord(i, j+1), coord(i, j) ), cur_depth+1 ) );
+								Q.push( make_pair( cur_board.swap( i, j+1,  i, j ), cur_depth+1 ) );
 						}
 					}
 				}
