@@ -1,119 +1,113 @@
 
-#include <set>
-#include <map>
-#include <list>
-#include <stack>
-#include <queue>
-#include <cmath>
-#include <bitset>
-#include <cstdio>
-#include <string>
-#include <vector>
-#include <cassert>
-#include <cstring>
-#include <climits>
-#include <iomanip>
-#include <iostream>
-#include <algorithm>
+#include <bits/stdc++.h>
 
-#define INF 1000000001
-#define SQR(x) ((x)*(x))
+#define inf 1000000001
+template< class T > T sqr( T x ) { return x*x; }
+#define all(x) x.begin(), x.end()
 
-typedef unsigned long long uint64;
-typedef long long int64;
-
-class Pos
-{
-	public:
-		int x, y;
-		Pos( int x = 0, int y = 0 ) : x( x ), y( y ) {}
-		bool operator== ( const Pos& a ) const { return x == a.x && y == a.y; }
-		bool operator!= ( const Pos& a ) const { return !operator==( a ); }
-};
+typedef unsigned long long ull;
+typedef long long ll;
 
 using namespace std;
 
-int n, m;
-int a[ 101 ][ 101 ];
+#define N_MAX 101
 
-Pos start, finish;
+struct coord {
+	int x;
+	int y;
 
-void floodFill( int x, int y, int depth )
-{
-	if( x < 0 || x >= n || y < 0 || y >= m || a[ x ][ y ] != 0 )
-		return;
+	coord(int x, int y) : x(x), y(y) {}
 
-	a[ x ][ y ] = depth;
-	floodFill( x-1, y, depth+1 );
-	floodFill( x+1, y, depth+1 );
-	floodFill( x, y-1, depth+1 );
-	floodFill( x, y+1, depth+1 );
+	bool operator== (const coord a) const {
+		return x == a.x && y == a.y;
+	}
+};
+
+int N, M, K, k;
+string maze[N_MAX];
+
+bool solve_maze(coord start, coord pos, coord end) {
+	// we came here mark as X
+	maze[pos.x][pos.y] = 'X';
+
+	// we reached goal
+	if (pos == end)
+		return true;
+
+	// position is called 'good' if it is on good path
+	// path is called good if it connects the 'start' and the 'end'
+	bool good_pos = false;
+
+	// number of options we have from this pos
+	int options_num = 0;
+
+	if (pos.x-1 >= 0 && maze[pos.x-1][pos.y] == '.') {
+		++options_num;
+		good_pos |= solve_maze(start, coord(pos.x-1, pos.y), end);
+	}
+	if (pos.x+1  < N && maze[pos.x+1][pos.y] == '.') {
+		++options_num;
+		good_pos |= solve_maze(start, coord(pos.x+1, pos.y), end);
+	}
+	if (pos.y-1 >= 0 && maze[pos.x][pos.y-1] == '.') {
+		++options_num;
+		good_pos |= solve_maze(start, coord(pos.x, pos.y-1), end);
+	}
+	if (pos.y+1  < M && maze[pos.x][pos.y+1] == '.') {
+		++options_num;
+		good_pos |= solve_maze(start, coord(pos.x, pos.y+1), end);
+	}
+
+	if (good_pos && options_num > 1)
+		++k;
+
+	return good_pos;
 }
 
-int main()
-{
-	//reading
+coord find_start() {
+	for (int i = 0; i < N; ++i) {
+		for (int j = 0; j < M; ++j) {
+			if (maze[i][j] == 'M') {
+				maze[i][j] = '.';
+				return coord(i, j);
+			}
+		}
+	}
+	assert(false);
+}
+
+coord find_end() {
+	for (int i = 0; i < N; ++i) {
+		for (int j = 0; j < M; ++j) {
+			if (maze[i][j] == '*') {
+				maze[i][j] = '.';
+				return coord(i, j);
+			}
+		}
+	}
+	assert(false);
+}
+
+int main() {
 	int T;
 	cin >> T;
-	while ( T-- )
-	{
-		cin >> n >> m;
 
-		for( int i = 0; i < n; ++i )
-		{
-			string s;
-			cin >> s;
-			for( int j = 0; j < m; ++j )
-			{
-				switch( s[ j ] )
-				{
-					case '*': a[ i ][ j ] = 0; finish = Pos( i, j ); break;
-					case 'M': a[ i ][ j ] = 0; start = Pos( i, j ); break;
-					case 'X': a[ i ][ j ] =-1; break;
-					case '.': a[ i ][ j ] = 0; break;
-				}
-			}
-		}
-		int ron_ans;
-		cin >> ron_ans;
+	while (T--) {
+		cin >> N >> M;
 
-		floodFill( start.x, start.y, 1 );
+		for (int i = 0; i < N; ++i)
+			cin >> maze[i];
 
-		for( int i = 0; i < n; ++i )
-		{
-			for( int j = 0; j < m; ++j )
-			{
-				if( a[i][j] == -1 )
-					cout << "[]";
-				else
-					cout << setw(2) << a[i][j];
-			}
-			cout << endl;
-		}
+		cin >> K;
 
-		int ans = 0;
-		do {
-			if( finish.x-1 >= 0 && a[ finish.x-1 ][ finish.y ] == a[ finish.x ][ finish.y ]-1 )
-				--finish.x;
-			if( finish.x+1  < n && a[ finish.x+1 ][ finish.y ] == a[ finish.x ][ finish.y ]-1 )
-				++finish.x;
+		k = 0;
 
-			if( finish.y-1 >= 0 && a[ finish.x ][ finish.y-1 ] == a[ finish.x ][ finish.y ]-1 )
-				--finish.y;
-			if( finish.y+1  < m && a[ finish.x ][ finish.y+1 ] == a[ finish.x ][ finish.y ]-1 )
-				++finish.y;
+		coord start = find_start();
+		coord end = find_end();
 
-			int t = 0;
-			if( finish.x-1 >= 0 && a[ finish.x-1 ][ finish.y ] != -1 ) ++t;
-			if( finish.x+1  < n && a[ finish.x+1 ][ finish.y ] != -1 ) ++t;
-			if( finish.y-1 >= 0 && a[ finish.x ][ finish.y-1 ] != -1 ) ++t;
-			if( finish.y+1  < m && a[ finish.x ][ finish.y+1 ] != -1 ) ++t;
-			if( t > 2 )
-				++ans;
-		} while ( finish != start );
+		solve_maze(start, start, end);
 
-		cout << ans << endl;
-		cout << ( ron_ans == ans ? "Impressed" : "Oops!" ) << endl;
+		cout << (K == k ? "Impressed" : "Oops!") << endl;
 	}
 
 	return 0;
