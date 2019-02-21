@@ -29,6 +29,8 @@ void TEST__calc_sum() {{
 }}
 
 string process_tree(ll needed_sum) {
+	ll sum;
+	bool leaf = true;
 	char c;
 	stack<ll> st;
 	bool yes = false;
@@ -39,10 +41,16 @@ string process_tree(ll needed_sum) {
 
 			case '(':
 				st.push(0);
+				leaf = true;
 				break;
 
 			case ')':
-				yes |= (calc_sum(st) == needed_sum);
+				if (leaf) {
+					sum = calc_sum(st);
+					yes |= (sum == needed_sum);
+					leaf = false;
+				}
+
 				st.pop();
 				if (st.empty())
 					return yes ? "yes" : "no";
