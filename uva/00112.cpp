@@ -61,7 +61,11 @@ string process_tree(ll needed_sum) {
 			case '4': case '5':
 			case '6': case '7':
 			case '8': case '9':
-				st.top() = st.top() * 10 + (c-'0');
+				st.top() = st.top() * 10 + (st.top() < 0 ? -(c-'0') : c-'0');
+				break;
+
+			case '-':
+				st.top() = -(cin.get()-'0');
 				break;
 		}
 	}
