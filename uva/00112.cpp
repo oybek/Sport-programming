@@ -1,67 +1,73 @@
 
-#include <set>
-#include <map>
-#include <list>
-#include <stack>
-#include <queue>
-#include <cmath>
-#include <bitset>
-#include <cstdio>
-#include <string>
-#include <vector>
-#include <cassert>
-#include <cstring>
-#include <climits>
-#include <iomanip>
-#include <iostream>
-#include <algorithm>
+#include <bits/stdc++.h>
 
-#define INF INT_MAX-1
-#define SQR(x) ((x)*(x))
+#define inf 1000000001
+#define sqr(x) ((x)*(x))
+#define all(x) x.begin(), x.end()
 
-typedef unsigned long long uint64;
-typedef long long int64;
+typedef unsigned long long ull;
+typedef long long ll;
 
 using namespace std;
 
-int get_number() {
-	int n = 0, c;
-	while (1) {
-		if ((c = getchar()) == EOF)
-			return -1;
-		else
-		if (!isdigit(c))
-			break;
-
-		n *= 10;
-		n += c-'0';
-	}
-	return n;
+template<class T>
+T calc_sum(stack<T> st) {
+   T* end   = &st.top() + 1;
+   T* begin = end - st.size();
+   vector<T> v(begin, end);
+   return accumulate(all(v), 0ll);
 }
 
-bool check_tree(int goal) {
-	stack<int> st;
-	while (1) {
-		c = getchar();
-		if (c == ')') {
-			st.pop();
-			if (st.size() == 0)
+void TEST__calc_sum() {{
+	stack<ll> st;
+	assert(calc_sum(st) == 0);
+}{
+	stack<ll> st;
+	st.push(2);
+	st.push(3);
+	assert(calc_sum(st) == 5);
+}}
+
+string process_tree(ll needed_sum) {
+	char c;
+	stack<ll> st;
+	bool yes = false;
+	while ((c = cin.get()) != EOF) {
+		switch (c) {
+			default:
 				break;
-		} else
-		if (c == '(') {
-			st.push(0);
-		} else
-		if (isdigit(c)) {
-			st.top() *= 10;
-			st.top() += c-'0';
+
+			case '(':
+				st.push(0);
+				break;
+
+			case ')':
+				yes |= (calc_sum(st) == needed_sum);
+				st.pop();
+				if (st.empty())
+					return yes ? "yes" : "no";
+				break;
+
+			case '0': case '1':
+			case '2': case '3':
+			case '4': case '5':
+			case '6': case '7':
+			case '8': case '9':
+				st.top() = st.top() * 10 + (c-'0');
+				break;
 		}
 	}
+	return yes ? "yes" : "no";
 }
 
 int main() {
-	int sum, c, t, goal;
-	while (1) {
-		int goal = get_number();
+#ifdef LOCAL
+	TEST__calc_sum();
+#endif
+
+	int needed_sum;
+	while (cin >> needed_sum) {
+		cout << process_tree(needed_sum) << endl;
 	}
 
 	return 0;
