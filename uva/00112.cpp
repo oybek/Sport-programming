@@ -10,66 +10,68 @@ typedef long long ll;
 
 using namespace std;
 
-template<class T>
-T calc_sum(stack<T> st) {
-   T* end   = &st.top() + 1;
-   T* begin = end - st.size();
-   vector<T> v(begin, end);
-   return accumulate(all(v), 0ll);
-}
+struct node {
+	ll val = 0;
+	node* left = nullptr;
+	node* right = nullptr;
+};
 
-void TEST__calc_sum() {{
-	stack<ll> st;
-	assert(calc_sum(st) == 0);
-}{
-	stack<ll> st;
-	st.push(2);
-	st.push(3);
-	assert(calc_sum(st) == 5);
-}}
-
-string process_tree(ll needed_sum) {
-	ll sum;
-	bool leaf = true;
+node* build_tree(istream& cin) {
 	char c;
-	stack<ll> st;
-	bool yes = false;
+	node* cur = nullptr;
 	while ((c = cin.get()) != EOF) {
 		switch (c) {
 			default:
 				break;
 
 			case '(':
-				st.push(0);
-				leaf = true;
+				if (cur->left == nullptr) {
+					cur->left = build_tree(cin);
+				} else {
+					cur->right = build_tree(cin);
+				}
 				break;
 
 			case ')':
-				if (leaf) {
-					sum = calc_sum(st);
-					yes |= (sum == needed_sum);
-					leaf = false;
-				}
+				return cur;
 
-				st.pop();
-				if (st.empty())
-					return yes ? "yes" : "no";
-				break;
-
+			case '-':
 			case '0': case '1':
 			case '2': case '3':
 			case '4': case '5':
 			case '6': case '7':
 			case '8': case '9':
-				st.top() = st.top() * 10 + (st.top() < 0 ? -(c-'0') : c-'0');
-				break;
-
-			case '-':
-				st.top() = -(cin.get()-'0');
+				cin.unget();
+				cur = new node;
+				cin >> cur->val;
 				break;
 		}
 	}
-	return yes ? "yes" : "no";
+	return cur;
+}
+
+void draw_tree(node* cur, int depth = 0) {
+	for (int i = 0; i < depth; ++i)
+		cout << '.';
+
+	if (cur == nullptr) {
+		cout << "null" << endl;
+	} else {
+		cout << cur->val << endl;
+		draw_tree(cur->left, depth+1);
+		draw_tree(cur->right, depth+1);
+	}
+}
+
+bool good_tree(node* cur, ll sum, ll needed_sum) {
+	if (cur->left == nullptr && cur->right == nullptr) {
+		cout << sum << endl;
+		return sum == needed_sum;
+	}
+
+	return ( cur->left ? good_tree( cur->left, sum+cur->val, needed_sum) : false)
+		|| (cur->right ? good_tree(cur->right, sum+cur->val, needed_sum) : false);
+
 }
 
 int main() {
@@ -79,7 +81,10 @@ int main() {
 
 	int needed_sum;
 	while (cin >> needed_sum) {
-		cout << process_tree(needed_sum) << endl;
+		while (cin.get() != '(');
+		node* root = build_tree(cin);
+		//draw_tree(root);
+		cout << (good_tree(root, 0, needed_sum) ? "yes" : "no") << endl;
 	}
 
 	return 0;
