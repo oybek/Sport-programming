@@ -65,12 +65,11 @@ void draw_tree(node* cur, int depth = 0) {
 
 bool good_tree(node* cur, ll sum, ll needed_sum) {
 	if (cur->left == nullptr && cur->right == nullptr) {
-		cout << sum << endl;
 		return sum == needed_sum;
 	}
 
-	return ( cur->left ? good_tree( cur->left, sum+cur->val, needed_sum) : false)
-		|| (cur->right ? good_tree(cur->right, sum+cur->val, needed_sum) : false);
+	return ( cur->left ? good_tree( cur->left, sum+cur->left->val, needed_sum) : false)
+		|| (cur->right ? good_tree(cur->right, sum+cur->right->val, needed_sum) : false);
 
 }
 
@@ -84,7 +83,11 @@ int main() {
 		while (cin.get() != '(');
 		node* root = build_tree(cin);
 		//draw_tree(root);
-		cout << (good_tree(root, 0, needed_sum) ? "yes" : "no") << endl;
+		if (root == nullptr) {
+			cout << "no" << endl;
+		} else {
+			cout << (good_tree(root, root->val, needed_sum) ? "yes" : "no") << endl;
+		}
 	}
 
 	return 0;
